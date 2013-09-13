@@ -2,7 +2,7 @@ define(function (require) {
   var api = require('./apis/index');
   Lungo.init({
     name: 'Ngacn',
-    resources: ['aside.html', 'login.html']
+    resources: ['aside.html', 'login.html', 'groups.html', 'forum.html', 'topic.html']
   });
 
   Lungo.Service.Settings.error = function(type, xhr){
@@ -22,16 +22,11 @@ define(function (require) {
 
   // Lungo.Router.section('login');
 
-  // $$('#main').html(_.template(require('./views/forums.tpl'))());
-  $$('#btn-features').on('tap', function () {
-    Lungo.Aside.toggle('features');
-  });
+  // Lungo.dom('#to-category-2').on('tap', function () {
+  // });
+  // Lungo.dom('#main>nav').html(_.template(require('./views/forums/nav.tpl'))());
+  // Lungo.Article.clean('category-1', 'user', 't', 'c', 'r');
 
-  Lungo.init({
-    name: 'Ngacn',
-    resources: ['aside.html', 'login.html']
-    
-  });
-  require('./ctrls/index');
+  require('./ctrls/site');
 
 });

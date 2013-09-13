@@ -3,6 +3,8 @@ define(function (require) {
     base: require('./base'),
     site: require('./site'),
     global: require('./global'),
-    forums: require('./forums')
+    groups: require('./groups'),
+    forum: require('./forum'),
+    topic: require('./topic')
   };
 });

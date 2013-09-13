@@ -4,7 +4,7 @@ seajs.config({
 
   debug: true,
 
-  base: '/nga/app/js/',
+  base: './js/',
 
   charset: 'utf-8',
 

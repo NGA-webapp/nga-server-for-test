@@ -1,6 +1,6 @@
     <header data-title="艾泽拉斯国家地理论坛">
       <nav>
-        <button id="#btn-features" data-icon="menu"></button>
+        <button data-view-aside="features" data-icon="menu"></button>
       </nav>
     </header>
     <footer>
@@ -10,14 +10,16 @@
       </nav>
     </footer>
     <nav data-control="groupbar">
-      <a href="#" data-view-article="main-main" class="active">魔兽世界综合讨论</a>
-      <a href="#" data-view-article="article_2">其他版面</a>
-      <a href="#" data-view-article="article_2">暗黑破坏神</a>
-      <a href="#" data-view-article="article_2">其他游戏</a>
-      <a href="#" data-view-article="article_2">英雄联盟</a>
-      <a href="#" data-view-article="article_2">推荐专区</a>
+      <a href="#" data-view-article="category-1">魔兽世界综合讨论</a>
+      <a href="#" data-view-article="category-2">其他版面</a>
+      <a href="#" data-view-article="category-3">暗黑破坏神</a>
+      <a href="#" data-view-article="category-4">其他游戏</a>
+      <a href="#" data-view-article="category-5">英雄联盟</a>
+      <a href="#" data-view-article="category-6">推荐专区</a>
     </nav>
-    <article id="main-main" class="active list">
+    <article id="main">
+    </article>
+    <article id="category-1" class="list">
       <ul>
         <li class="anthor contrast">职业讨论区</li>
         <li class="thumb">
