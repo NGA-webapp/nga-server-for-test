@@ -12,7 +12,7 @@
           <strong class="text bold"><%= $get($first(tmp.getElementsByTagName('subject')), 'textContent') %></strong>
         <% } %>
         <span class="text small"><%== $get($first(tmp.getElementsByTagName('content')), 'textContent') %></span>
-        <small><%= userInfo[$get($first(tmp.getElementsByTagName('authorid')), 'textContent')].username %> <%= $format_date($get($first(tmp.getElementsByTagName('postdatetimestamp')), 'textContent')) %></small>
+        <small><%= $get(userInfo[$get($first(tmp.getElementsByTagName('authorid')), 'textContent')], 'username') %> <%= $format_date($get($first(tmp.getElementsByTagName('postdatetimestamp')), 'textContent')) %></small>
       </div>
     </li>
   <% } %>

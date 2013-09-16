@@ -11,6 +11,15 @@ define(function(require, exports) {
     // topicCtrl.request(fid);
     // console.log(this);
   };
+  var jumpPage = function (tid) {
+    return function () {
+      var page = parseInt($$(this).text(), 0);
+      if (page) {
+        request(tid, page);
+      }
+    };
+  };
+
 
   var userInfo = function (topic) {
     var root = topic.children[0];
@@ -30,20 +39,27 @@ define(function(require, exports) {
     return obj;
   };
 
-  var request = exports.request = function(fid, page) {
+  var request = exports.request = function(tid, page) {
     page = page || 1;
     Lungo.Notification.show();
-    api.topic(fid, page, function(topic) {
+    api.topic(tid, page, function(topic) {
+      var jump = jumpPage(tid);
       window.t = topic;
       console.log(userInfo(topic));
       // 清楚原来的点击事件绑定
       Lungo.dom('#topic-0 li').off('tap', introForum);
+      Lungo.dom('#topic>footer a').off('tap', jump);
       // 清空原来的列表并渲染模板
       Lungo.dom('#topic-0').html(template.compile(require('../views/topic/article.tpl'))({
         topic: topic, userInfo: userInfo(topic)
       }));
+      // 更新页码
+      Lungo.dom('#topic>footer').html(template.compile(require('../views/topic/footer.tpl'))({
+        topic: topic, userInfo: userInfo(topic), page: page
+      }));
       // 重新绑定事件
       Lungo.dom('#topic-0 li').on('tap', introForum);
+      Lungo.dom('#topic>footer a').on('tap', jump);
       // 准备完毕，进入页面，并隐去加载提示
       Lungo.Notification.hide();
       Lungo.Router.article('topic', 'topic-0');
