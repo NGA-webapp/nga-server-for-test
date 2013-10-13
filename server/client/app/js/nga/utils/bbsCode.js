@@ -1,648 +1,650 @@
-if (!window.ubbcode) var ubbcode = {}
-if (!window.__IMGPATH) var __IMGPATH = 'http://img4.ngacn.cc/ngabbs'
+define(function (require, exports) {
+  var ubb = {};
+  var __IMGPATH = 'http://img4.ngacn.cc/ngabbs';
 
-ubbcode.smiles = {
-  1: __IMGPATH + '/post/smile/smile.gif',
-  2: __IMGPATH + '/post/smile/mrgreen.gif',
-  3: __IMGPATH + '/post/smile/question.gif',
-  4: __IMGPATH + '/post/smile/wink.gif',
-  5: __IMGPATH + '/post/smile/redface.gif',
-  6: __IMGPATH + '/post/smile/sad.gif',
-  7: __IMGPATH + '/post/smile/cool.gif',
-  8: __IMGPATH + '/post/smile/crazy.gif',
-  32: __IMGPATH + '/post/smile/12.gif',
-  33: __IMGPATH + '/post/smile/13.gif',
-  34: __IMGPATH + '/post/smile/14.gif',
-  30: __IMGPATH + '/post/smile/10.gif',
-  29: __IMGPATH + '/post/smile/09.gif',
-  28: __IMGPATH + '/post/smile/08.gif',
-  27: __IMGPATH + '/post/smile/07.gif',
-  26: __IMGPATH + '/post/smile/06.gif',
-  25: __IMGPATH + '/post/smile/05.gif',
-  24: __IMGPATH + '/post/smile/04.gif',
-  35: __IMGPATH + '/post/smile/15.gif',
-  36: __IMGPATH + '/post/smile/16.gif',
-  37: __IMGPATH + '/post/smile/17.gif',
-  38: __IMGPATH + '/post/smile/18.gif',
-  39: __IMGPATH + '/post/smile/19.gif',
-  40: __IMGPATH + '/post/smile/20.gif',
-  41: __IMGPATH + '/post/smile/21.gif',
-  42: __IMGPATH + '/post/smile/22.gif',
-  43: __IMGPATH + '/post/smile/23.gif'
-}
+  ubb.smiles = {
+    1: __IMGPATH + '/post/smile/smile.gif',
+    2: __IMGPATH + '/post/smile/mrgreen.gif',
+    3: __IMGPATH + '/post/smile/question.gif',
+    4: __IMGPATH + '/post/smile/wink.gif',
+    5: __IMGPATH + '/post/smile/redface.gif',
+    6: __IMGPATH + '/post/smile/sad.gif',
+    7: __IMGPATH + '/post/smile/cool.gif',
+    8: __IMGPATH + '/post/smile/crazy.gif',
+    32: __IMGPATH + '/post/smile/12.gif',
+    33: __IMGPATH + '/post/smile/13.gif',
+    34: __IMGPATH + '/post/smile/14.gif',
+    30: __IMGPATH + '/post/smile/10.gif',
+    29: __IMGPATH + '/post/smile/09.gif',
+    28: __IMGPATH + '/post/smile/08.gif',
+    27: __IMGPATH + '/post/smile/07.gif',
+    26: __IMGPATH + '/post/smile/06.gif',
+    25: __IMGPATH + '/post/smile/05.gif',
+    24: __IMGPATH + '/post/smile/04.gif',
+    35: __IMGPATH + '/post/smile/15.gif',
+    36: __IMGPATH + '/post/smile/16.gif',
+    37: __IMGPATH + '/post/smile/17.gif',
+    38: __IMGPATH + '/post/smile/18.gif',
+    39: __IMGPATH + '/post/smile/19.gif',
+    40: __IMGPATH + '/post/smile/20.gif',
+    41: __IMGPATH + '/post/smile/21.gif',
+    42: __IMGPATH + '/post/smile/22.gif',
+    43: __IMGPATH + '/post/smile/23.gif'
+  };
 
-ubbcode.checkLinkTable = {
-  'worldofwarcraft.com': 1,
-  'ofcard.com': 1,
-  'uusee.com': 1,
-  'youtube.com': 1,
-  'youku.com': 1,
-  'weplay.cn': 1,
-  'tudou.com': 1,
-  'ngacn.cc': -1,
-  'uencn.com': 1,
-  'sc2.cc': 1,
-  'ngacn.com': 1,
-  'wowchina.com': 1,
-  'microsoft.com': 1,
-  'dmzj.com': 1,
-  '178.com': -1,
-  'com.cn': 'add1',
-  'pixiv.net': 'add1',
-  'embed.pixiv.net': 1,
-  'static.loli.my': 1, //bilibili视频
-  'loli.my': 'add1',
-  'hdslb.com': 1, //bilibili视频
-  'sina.com.cn': 1,
-  'bilibili.us': 1,
-  'bilibili.tv': 1,
-  '126.net': 1 //网易视频
-}
+  ubb.checkLinkTable = {
+    'worldofwarcraft.com': 1,
+    'ofcard.com': 1,
+    'uusee.com': 1,
+    'youtube.com': 1,
+    'youku.com': 1,
+    'weplay.cn': 1,
+    'tudou.com': 1,
+    'ngacn.cc': -1,
+    'uencn.com': 1,
+    'sc2.cc': 1,
+    'ngacn.com': 1,
+    'wowchina.com': 1,
+    'microsoft.com': 1,
+    'dmzj.com': 1,
+    '178.com': -1,
+    'com.cn': 'add1',
+    'pixiv.net': 'add1',
+    'embed.pixiv.net': 1,
+    'static.loli.my': 1, //bilibili视频
+    'loli.my': 'add1',
+    'hdslb.com': 1, //bilibili视频
+    'sina.com.cn': 1,
+    'bilibili.us': 1,
+    'bilibili.tv': 1,
+    '126.net': 1 //网易视频
+  };
 
-ubbcode.checkIframeTable = {
-  0: 'http://wow.178.com/'
-}
+  ubb.checkIframeTable = {
+    0: 'http://wow.178.com/'
+  };
 
-ubbcode.regexplock = 0
-ubbcode.videonum = 0
-ubbcode.ifCanvas = window.CanvasRenderingContext2D ? true : false
-ubbcode.bbscodeConvArgsSave = {}
-ubbcode.contentQuoteCache = {}
+  ubb.regexplock = 0;
+  ubb.videonum = 0;
+  ubb.ifCanvas = window.CanvasRenderingContext2D ? true : false;
+  ubb.bbscodeConvArgsSave = {};
+  ubb.contentQuoteCache = {};
 
-ubbcode.secure_text = function(t) {
-  t = t.replace(/</g, '&lt;');
-  t = t.replace(/>/g, '&gt;');
-  t = t.replace(/"/g, '&quot;');
-  t = t.replace(/'/g, '&#39;');
-  t = t.replace(/&lt;br\/?&gt;/gi, '<br />');
-  return t;
-}
-//fe
+  ubb.secure_text = function(t) {
+    t = t.replace(/</g, '&lt;');
+    t = t.replace(/>/g, '&gt;');
+    t = t.replace(/"/g, '&quot;');
+    t = t.replace(/'/g, '&#39;');
+    t = t.replace(/&lt;br\/?&gt;/gi, '<br />');
+    return t;
+  };
 
-/*
-var arg = {
-  c:,
-  txt:,
-  noImg:,
-  tId:,
-  pId:,
-  authorId:,
-  rvrc:,
-  isSig:,
-  callBack:,
-  isLesser:
-  }
-*/
-ubbcode.bbsCode = function(arg) {
-  if (this.noBBCode)
-    return
-  if (this.regexplock) {
-    var self = this
-    window.setTimeout(function() {
-      self.bbsCode(arg)
-    }, 50);
-  } else {
-    this.regexplock = 1;
-    if (typeof(arg.c) == 'string') arg.c = document.getElementById(arg.c)
-    if (__SETTING.uA[0] == 1 && !arg.parentWidth) { //ie根据父元素宽度计算图片最大宽度
-      var p = arg.c.parentNode
-      for (var i = 0; i < 3; i++) {
-        if (p.offsetWidth && p.nodeName == 'TD' || p.nodeName == 'DIV') {
-          arg.parentWidth = p.offsetWidth
-          break
-        } else
-          p = p.parentNode
-      }
-    }
-    arg.tId = parseInt(arg.tId, 10)
-    if (!arg.tId) arg.tId = 0
-    arg.pId = parseInt(arg.pId, 10)
-    if (!arg.pId) arg.pId = 0
-    arg.authorId = parseInt(arg.authorId, 10)
-    if (!arg.authorId) arg.authorId = 0
-    var argsId = arg.c.id ? arg.c.id : 'bbcode' + Math.random()
-    arg.argsId = argsId
-    if (!arg.isSig) {
-      var x = arg.txt !== undefined ? arg.txt : arg.c.innerHTML
-      if (x.indexOf('[quote]') != -1)
-        x = x.replace(/\[quote\](.+?)\[\/quote\](?:<br\/?>)*/gi, '')
-      if (x.indexOf('Reply to [pid=') != -1)
-        x = x.replace(/^\[b\]Reply to \[pid=\d+,\d+,\d+\]Reply\[\/pid\] Post by ([^\]]+?)\[\/b\](?:<br\/?>)*/gi, '')
-      this.contentQuoteCache[arg.pId] = x.substr(0, 250).replace(/<[^>]+$/, '')
-    }
-
-    this.bbscodeConvArgsSave[argsId] = arg
-    if (!arg.c.className || arg.c.className.indexOf('ubbcode') == -1) arg.c.className += ' ubbcode'
-    arg.c.innerHTML = this.bbscode_core(arg);
-    if (arg.callBack) arg.callBack(arg)
-    this.regexplock = 0;
-  }
-} //fe
-
-ubbcode.bbscode = function(o, noimg, tid, pid, uid) {
+  /*
   var arg = {
-    c: o,
-    noImg: noimg,
-    tId: tid,
-    pId: pid,
-    authorId: uid
-  }
-  this.bbsCode(arg)
-}
-
-ubbcode.bbscode_core = function(arg) {
-  var c = arg.txt ? arg.txt : arg.c.innerHTML
-
-  if (c.match(/[\[=&]/) == null)
-    return c
-  c = c.replace(/\n/g, ' ');
-  c = this.secure_text(c)
-
-  c = this.codeTag.parse(c)
-
-  if (c.indexOf('&') != -1) {
-    c = c.replace(/&amp;#(\d{2,6});/g, function($0, $1) {
-      if ($1 > 127)
-        return String.fromCharCode($1)
-      else
-        return $0
-    })
-  }
-
-  c = this.bbscode_common(c, arg.noImg, arg.argsId)
-
-
-
-  c = c.replace(/p_w_upload/gi, "attachment"); //[img]
-  return c;
-} //fe
-
-
-ubbcode.manualLoadCache = {}
-
-ubbcode.bbscode_common = function(c, noimg, argsId) {
-
-  var wo = window,
-    commonui = wo.commonui,
-    self = this
-
-  if ((wo.__SETTING.bit & 4) && !noimg) noimg = 1
-
-  c = c.replace(/^\[b\]Reply to \[pid=(\d+),(\d+),(\d+)\]Reply\[\/pid\] Post by ([^\]]+?)\[\/b\]/gi, function($0, $1, $2, $3, $4) {
-    if (!self.contentQuoteCache[$1])
-      return $0
-    return '[quote][pid=' + $1 + ',' + $2 + ',' + $3 + ']Reply[/pid] [b]Post by ' + $4 + ':[/b]<br/><br/>' + self.contentQuoteCache[$1] + '[/quote]'
-  })
-
-  c = c.replace(/\[crypt\](.+?)\[\/crypt\]/gi, function($0, $1) {
-    var id = 'crypt' + Math.random()
-    self.decryptCache[id] = $1;
-    return "<div class='quote'><b>输入正确的密码以浏览加密的内容 </b><input type=text size=10><button type='button' onclick='ubbcode.decrypt(this.previousSibling.value,ubbcode.decryptCache[\"" + id + "\"],this.parentNode,\"" + argsId + "\")'>确认</button></div>"
-  })
-
-  c = c.replace(/(?:<br\s*\/?>)?\s*\[table\]\s*(?:<br\s*\/?>)*\s*(.+?)\s*(?:<br\s*\/?>)*\s*\[\/table\]\s*(?:<br\s*\/?>)?/gi, function($0, $1) {
-    var t = $1
-    t = t.replace(/(?:<br\s*\/?>)*\s*\[tr\]\s*(?:<br\s*\/?>)*\s*(.+?)\s*(?:<br\s*\/?>)*\s*\[\/tr\]\s*(?:<br\s*\/?>)?/gi, "<tr>$1</tr>"); //[tr]
-    t = t.replace(/(?:<br\s*\/?>)*\s*\[td\s*([^\]]*)\]\s*(?:<br\s*\/?>)?\s*(.*?)\s*(?:<br\s*\/?>)?\s*\[\/td\]\s*(?:<br\s*\/?>)*/gi, function($0, $1, $2) {
-      var x, w = '',
-        c = '',
-        r = '';
-      if (parseFloat($1))
-        w = 'width:' + $1 + '%;'
-      else {
-        if (x = $1.match(/width=?(\d{0,2})/))
-          w = 'width:' + x[1] + '%;'
-        if (x = $1.match(/colspan=?(\d{0,2})/))
-          c = ' colspan=' + x[1] + ' '
-        if (x = $1.match(/rowspan=?(\d{0,2})/))
-          r = ' rowspan=' + x[1] + ' '
-      }
-      return "<td " + c + r + " style='" + w + "border-left:1px solid #aaa;border-bottom:1px solid #aaa'>" + $2 + "</td>"
-    }); //[td]
-    return "<div><table cellspacing='0px' style='border:1px solid #aaa;width:99.9%'>" + t + "</table></div>"
-  }); //[table]
-
-  c = self.ubi.parse(c); //[del][u][b][i][sup][sub]
-
-
-
-  c = c.replace(/\[dice\]([\dd+\s]+?)\[\/dice\]/gi, function($0, $1) {
-    var sum = 0;
-    var rr = $1;
-    $1 = '+' + $1;
-    $1 = $1.replace(/(\+)(\d{0,10})(?:(d)(\d{1,10}))?/gi, function($0, $1, $2, $3, $4) {
-      if ($2) $2 = parseInt($2, 10);
-      else if ($3) $2 = 1;
-      else $2 = 0;
-      $4 = parseInt($4, 10);
-      var r = '';
-      if (!$3) {
-        if (typeof(sum) != 'string') sum += $2;
-        return '+' + $2
-      }
-      if ($2 > 10 || $4 > 1000) {
-        sum = 'ERROR';
-        return '+OUT OF LIMIT'
-      };
-      for (var i = 0; i < $2; i++) {
-        var rand = Math.floor(self.sRand.rnd(argsId) * $4) + 1
-        r += '+d' + $4 + '(' + rand + ')';
-        if (typeof(sum) != 'string') sum += rand;
-      }
-      return r;
-    });
-    return "<table class='dice'><tr><td><b>ROLL : " + rr + '</b>=' + $1.substr(1) + '=<b>' + sum + "</b></td></tr></table>";
-  }); //[dice]
-
-  if (c.indexOf('[list') != -1) {
-    while (c.match(/\[list(?:=.)?\](?:.*?)\[\/list\]/)) {
-      c = c.replace(/(.*)\[list(=.)?\](.*?)\[\/list\]\s*(?:<br\s*\/?>)?/i, function($0, $1, $2, $3) {
-        $1 = $1.replace(/<br\s*\/?>$/i, '')
-        $3 = $3.split('[*]')
-        var l = ''
-        for (var i = 0; i < $3.length; i++) {
-          $3[i] = $3[i].replace(/^<br\s*\/?>|<br\s*\/?>$/ig, '')
-          if ($3[i])
-            l += '<li>' + $3[i] + '</li>'
+    c:,
+    txt:,
+    noImg:,
+    tId:,
+    pId:,
+    authorId:,
+    rvrc:,
+    isSig:,
+    callBack:,
+    isLesser:
+    }
+  */
+  ubb.bbsCode = function(arg) {
+    if (this.noBBCode)
+      return;
+    if (this.regexplock) {
+      var self = this;
+      window.setTimeout(function() {
+        self.bbsCode(arg);
+      }, 50);
+    } else {
+      this.regexplock = 1;
+      if (typeof(arg.c) == 'string') arg.c = document.getElementById(arg.c);
+      if (__SETTING.uA[0] == 1 && !arg.parentWidth) { //ie根据父元素宽度计算图片最大宽度
+        var p = arg.c.parentNode;
+        for (var i = 0; i < 3; i++) {
+          if (p.offsetWidth && p.nodeName == 'TD' || p.nodeName == 'DIV') {
+            arg.parentWidth = p.offsetWidth;
+            break;
+          } else
+            p = p.parentNode;
         }
-        if ($2)
-          return $1 + "<ol type" + $2 + ">" + l + "</ol>"
+      }
+      arg.tId = parseInt(arg.tId, 10);
+      if (!arg.tId) arg.tId = 0;
+      arg.pId = parseInt(arg.pId, 10);
+      if (!arg.pId) arg.pId = 0;
+      arg.authorId = parseInt(arg.authorId, 10);
+      if (!arg.authorId) arg.authorId = 0;
+      var argsId = arg.c.id ? arg.c.id : 'bbcode' + Math.random();
+      arg.argsId = argsId;
+      if (!arg.isSig) {
+        var x = arg.txt !== undefined ? arg.txt : arg.c.innerHTML;
+        if (x.indexOf('[quote]') != -1)
+          x = x.replace(/\[quote\](.+?)\[\/quote\](?:<br\/?>)*/gi, '');
+        if (x.indexOf('Reply to [pid=') != -1)
+          x = x.replace(/^\[b\]Reply to \[pid=\d+,\d+,\d+\]Reply\[\/pid\] Post by ([^\]]+?)\[\/b\](?:<br\/?>)*/gi, '');
+        this.contentQuoteCache[arg.pId] = x.substr(0, 250).replace(/<[^>]+$/, '');
+      }
+
+      this.bbscodeConvArgsSave[argsId] = arg;
+
+      if (!arg.c.className || arg.c.className.indexOf('ubbcode') == -1) arg.c.className += ' ubbcode';
+      arg.c.innerHTML = this.bbscode_core(arg);
+      if (arg.callBack) arg.callBack(arg);
+      this.regexplock = 0;
+    }
+  };
+
+  ubb.init = function(o, noimg, tid, pid, uid) {
+    var arg = {
+      c: o,
+      noImg: noimg,
+      tId: tid,
+      pId: pid,
+      authorId: uid
+    };
+    this.bbsCode(arg);
+  };
+
+  ubb.bbscode_core = function(arg) {
+    var c = arg.txt ? arg.txt : arg.c.innerHTML;
+
+    if (c.match(/[\[=&]/) === null)
+      return c;
+    c = c.replace(/\n/g, ' ');
+    c = this.secure_text(c);
+
+    c = this.codeTag.parse(c);
+
+    if (c.indexOf('&') != -1) {
+      c = c.replace(/&amp;#(\d{2,6});/g, function($0, $1) {
+        if ($1 > 127)
+          return String.fromCharCode($1);
         else
-          return $1 + "<ul>" + l + "</ul>"
+          return $0;
       });
     }
-  } //[list]
 
-  //c = c.replace(/\[quote\](.+?)\[\/quote\]/gi,"<div class='quote'>$1</div>");//[quote]
-  c = self.parseQuote.parse(c)
-  //c = c.replace(/\[say\](.+?)\[\/say\]/gi,"<div class='say'>$1</div>");//[say]
+    c = this.bbscode_common(c, arg.noImg, arg.argsId);
 
-  c = c.replace(/\[lessernuke\](.+?)\[\/lessernuke\]/gi, "<div class='lessernuke'><span class='crimson'>用户因此贴被暂时禁言，此效果不会累加</span> <a href='javascript:void(0)' onclick='nextElement(this).style.display=\"block\"'>点击查看</a><div style='display:none'>$1</div></div>"); //[lessernuke]
 
-  c = c.replace(/\[color=(skyblue|royalblue|blue|darkblue|orange|orangered|crimson|red|firebrick|darkred|green|limegreen|seagreen|teal|deeppink|tomato|coral|purple|indigo|burlywood|sandybrown|sienna|chocolate|silver|gray)\](.+?)\[\/color\]/gi, "<span class='$1'>$2</span>"); //[color]
 
-  //c = c.replace(/\[email\](.+?)\[\/email\]/gi,"<a href='mailto:$1'>$1</a>");//[email\]
-  c = c.replace(/\[upup\](.+?)\[\/upup\]/i, function($0, $1) {
-    if (self.ifCanvas && $1.length < 8 && $1.indexOf('[') == -1 && $1.indexOf('<') == -1 && self.bbscodeConvArgsSave[argsId].isLesser)
-      return ' <b>' + $1 + "</b><img src='about:blank' style='display:none' onerror='ubbcode.upupProc(this.previousSibling)'/> "
-    else
-      return ' <b>' + $1 + "</b> "
-  }); //[upup]
+    c = c.replace(/p_w_upload/gi, "attachment"); //[img]
+    return c;
+  };
 
-  c = c.replace(/\[size=(\d{1,3})%?\](.*?)\[\/size\]/gi, function($0, $1, $2) {
-    return "<span style='font-size:" + $1 + "%;line-height:183%'>" + $2 + "</span>"
-  }); //[size\]
 
-  c = c.replace(/\[font=(simsun|simhei|Arial|Arial Black|Book Antiqua|Century Gothic|Comic Sans MS|Courier New|Georgia|Impact|Tahoma|Times New Roman|Trebuchet MS|Script MT Bold|Stencil|Verdana|Lucida Console)\](.+?)\[\/font\]/gi, "<span style='font-family:$1'>$2</span>"); //[font]
+  ubb.manualLoadCache = {};
 
-  c = c.replace(/(?:<br\s*\/?>)?\s*(\[align=)(left|center|right)(\])(.+?)(\[\/align\])\s*(?:<br\s*\/?>)?/gi, "<div style='text-align:$2'>$4</div>"); //[align]
+  ubb.bbscode_common = function(c, noimg, argsId) {
 
-  if (c.indexOf('[headline]') != -1) {
-    var tmp = []
-    c = c.replace(/(?:<br\s*\/?>)*\s*\[headline\](.+?)\[\/headline\]\s*(?:<br\s*\/?>)*/ig, function($0, $1) {
-      tmp.push($1);
-      if (tmp.length == 1) return '[headlinehere]';
-      else return ''
+    var wo = window,
+      commonui = wo.commonui,
+      self = this;
+
+    if ((wo.__SETTING.bit & 4) && !noimg) noimg = 1;
+
+    c = c.replace(/^\[b\]Reply to \[pid=(\d+),(\d+),(\d+)\]Reply\[\/pid\] Post by ([^\]]+?)\[\/b\]/gi, function($0, $1, $2, $3, $4) {
+      if (!self.contentQuoteCache[$1])
+        return $0;
+      return '[quote][pid=' + $1 + ',' + $2 + ',' + $3 + ']Reply[/pid] [b]Post by ' + $4 + ':[/b]<br/><br/>' + self.contentQuoteCache[$1] + '[/quote]'
     });
-    c = c.replace('[headlinehere]', function() {
-      var x = tmp
-      if (x) {
-        var td1, td2
-        var z = []
-        for (var k = 0; k < x.length; k++) {
-          var u = x[k].match(/\[url=(https?|ftp|gopher|news|telnet|mms|rtsp|)(.+?)\](.+?)\[\/url\]/i)
-          if (u) {
-            if (!u[1]) u[1] = 'http://';
-            u = self.writelink(u[1] + u[2], u[3])
-          } else {
-            u = x[k].match(/\[url\](https?|ftp|gopher|news|telnet|mms|rtsp)(.+?)\[\/url\]/i)
+
+    c = c.replace(/\[crypt\](.+?)\[\/crypt\]/gi, function($0, $1) {
+      var id = 'crypt' + Math.random();
+      self.decryptCache[id] = $1;
+      return "<div class='quote'><b>输入正确的密码以浏览加密的内容 </b><input type=text size=10><button type='button' onclick='ubb.decrypt(this.previousSibling.value,ubb.decryptCache[\"" + id + "\"],this.parentNode,\"" + argsId + "\")'>确认</button></div>"
+    });
+
+    c = c.replace(/(?:<br\s*\/?>)?\s*\[table\]\s*(?:<br\s*\/?>)*\s*(.+?)\s*(?:<br\s*\/?>)*\s*\[\/table\]\s*(?:<br\s*\/?>)?/gi, function($0, $1) {
+      var t = $1;
+      t = t.replace(/(?:<br\s*\/?>)*\s*\[tr\]\s*(?:<br\s*\/?>)*\s*(.+?)\s*(?:<br\s*\/?>)*\s*\[\/tr\]\s*(?:<br\s*\/?>)?/gi, "<tr>$1</tr>"); //[tr]
+      t = t.replace(/(?:<br\s*\/?>)*\s*\[td\s*([^\]]*)\]\s*(?:<br\s*\/?>)?\s*(.*?)\s*(?:<br\s*\/?>)?\s*\[\/td\]\s*(?:<br\s*\/?>)*/gi, function($0, $1, $2) {
+        var x, w = '',
+          c = '',
+          r = '';
+        if (parseFloat($1))
+          w = 'width:' + $1 + '%;'
+        else {
+          if (x = $1.match(/width=?(\d{0,2})/))
+            w = 'width:' + x[1] + '%;'
+          if (x = $1.match(/colspan=?(\d{0,2})/))
+            c = ' colspan=' + x[1] + ' '
+          if (x = $1.match(/rowspan=?(\d{0,2})/))
+            r = ' rowspan=' + x[1] + ' '
+        }
+        return "<td " + c + r + " style='" + w + "border-left:1px solid #aaa;border-bottom:1px solid #aaa'>" + $2 + "</td>"
+      }); //[td]
+      return "<div><table cellspacing='0px' style='border:1px solid #aaa;width:99.9%'>" + t + "</table></div>"
+    }); //[table]
+
+    c = self.ubi.parse(c); //[del][u][b][i][sup][sub]
+
+
+
+    c = c.replace(/\[dice\]([\dd+\s]+?)\[\/dice\]/gi, function($0, $1) {
+      var sum = 0;
+      var rr = $1;
+      $1 = '+' + $1;
+      $1 = $1.replace(/(\+)(\d{0,10})(?:(d)(\d{1,10}))?/gi, function($0, $1, $2, $3, $4) {
+        if ($2) $2 = parseInt($2, 10);
+        else if ($3) $2 = 1;
+        else $2 = 0;
+        $4 = parseInt($4, 10);
+        var r = '';
+        if (!$3) {
+          if (typeof(sum) != 'string') sum += $2;
+          return '+' + $2
+        }
+        if ($2 > 10 || $4 > 1000) {
+          sum = 'ERROR';
+          return '+OUT OF LIMIT'
+        };
+        for (var i = 0; i < $2; i++) {
+          var rand = Math.floor(self.sRand.rnd(argsId) * $4) + 1
+          r += '+d' + $4 + '(' + rand + ')';
+          if (typeof(sum) != 'string') sum += rand;
+        }
+        return r;
+      });
+      return "<table class='dice'><tr><td><b>ROLL : " + rr + '</b>=' + $1.substr(1) + '=<b>' + sum + "</b></td></tr></table>";
+    }); //[dice]
+
+    if (c.indexOf('[list') != -1) {
+      while (c.match(/\[list(?:=.)?\](?:.*?)\[\/list\]/)) {
+        c = c.replace(/(.*)\[list(=.)?\](.*?)\[\/list\]\s*(?:<br\s*\/?>)?/i, function($0, $1, $2, $3) {
+          $1 = $1.replace(/<br\s*\/?>$/i, '')
+          $3 = $3.split('[*]')
+          var l = ''
+          for (var i = 0; i < $3.length; i++) {
+            $3[i] = $3[i].replace(/^<br\s*\/?>|<br\s*\/?>$/ig, '')
+            if ($3[i])
+              l += '<li>' + $3[i] + '</li>'
+          }
+          if ($2)
+            return $1 + "<ol type" + $2 + ">" + l + "</ol>"
+          else
+            return $1 + "<ul>" + l + "</ul>"
+        });
+      }
+    } //[list]
+
+    //c = c.replace(/\[quote\](.+?)\[\/quote\]/gi,"<div class='quote'>$1</div>");//[quote]
+    c = self.parseQuote.parse(c)
+    //c = c.replace(/\[say\](.+?)\[\/say\]/gi,"<div class='say'>$1</div>");//[say]
+
+    c = c.replace(/\[lessernuke\](.+?)\[\/lessernuke\]/gi, "<div class='lessernuke'><span class='crimson'>用户因此贴被暂时禁言，此效果不会累加</span> <a href='javascript:void(0)' onclick='nextElement(this).style.display=\"block\"'>点击查看</a><div style='display:none'>$1</div></div>"); //[lessernuke]
+
+    c = c.replace(/\[color=(skyblue|royalblue|blue|darkblue|orange|orangered|crimson|red|firebrick|darkred|green|limegreen|seagreen|teal|deeppink|tomato|coral|purple|indigo|burlywood|sandybrown|sienna|chocolate|silver|gray)\](.+?)\[\/color\]/gi, "<span class='$1'>$2</span>"); //[color]
+
+    //c = c.replace(/\[email\](.+?)\[\/email\]/gi,"<a href='mailto:$1'>$1</a>");//[email\]
+    c = c.replace(/\[upup\](.+?)\[\/upup\]/i, function($0, $1) {
+      if (self.ifCanvas && $1.length < 8 && $1.indexOf('[') == -1 && $1.indexOf('<') == -1 && self.bbscodeConvArgsSave[argsId].isLesser)
+        return ' <b>' + $1 + "</b><img src='about:blank' style='display:none' onerror='ubb.upupProc(this.previousSibling)'/> "
+      else
+        return ' <b>' + $1 + "</b> "
+    }); //[upup]
+
+    c = c.replace(/\[size=(\d{1,3})%?\](.*?)\[\/size\]/gi, function($0, $1, $2) {
+      return "<span style='font-size:" + $1 + "%;line-height:183%'>" + $2 + "</span>"
+    }); //[size\]
+
+    c = c.replace(/\[font=(simsun|simhei|Arial|Arial Black|Book Antiqua|Century Gothic|Comic Sans MS|Courier New|Georgia|Impact|Tahoma|Times New Roman|Trebuchet MS|Script MT Bold|Stencil|Verdana|Lucida Console)\](.+?)\[\/font\]/gi, "<span style='font-family:$1'>$2</span>"); //[font]
+
+    c = c.replace(/(?:<br\s*\/?>)?\s*(\[align=)(left|center|right)(\])(.+?)(\[\/align\])\s*(?:<br\s*\/?>)?/gi, "<div style='text-align:$2'>$4</div>"); //[align]
+
+    if (c.indexOf('[headline]') != -1) {
+      var tmp = []
+      c = c.replace(/(?:<br\s*\/?>)*\s*\[headline\](.+?)\[\/headline\]\s*(?:<br\s*\/?>)*/ig, function($0, $1) {
+        tmp.push($1);
+        if (tmp.length == 1) return '[headlinehere]';
+        else return ''
+      });
+      c = c.replace('[headlinehere]', function() {
+        var x = tmp
+        if (x) {
+          var td1, td2
+          var z = []
+          for (var k = 0; k < x.length; k++) {
+            var u = x[k].match(/\[url=(https?|ftp|gopher|news|telnet|mms|rtsp|)(.+?)\](.+?)\[\/url\]/i)
             if (u) {
-              u = self.writelink(u[1] + u[2], u[1] + u[2])
+              if (!u[1]) u[1] = 'http://';
+              u = self.writelink(u[1] + u[2], u[3])
             } else {
-              u = x[k].match(/\[(tid|pid)=?([\d,]{0,50})\](.+?)\[\/\1\]/i)
-              if (u)
-                u = self.postLinkTag(u[1], u[2], u[3])
-              else {
-                u = x[k].match(/\[hltxt\](.+?)\[\/hltxt\]/i)
+              u = x[k].match(/\[url\](https?|ftp|gopher|news|telnet|mms|rtsp)(.+?)\[\/url\]/i)
+              if (u) {
+                u = self.writelink(u[1] + u[2], u[1] + u[2])
+              } else {
+                u = x[k].match(/\[(tid|pid)=?([\d,]{0,50})\](.+?)\[\/\1\]/i)
                 if (u)
-                  u = u[1]
+                  u = self.postLinkTag(u[1], u[2], u[3])
+                else {
+                  u = x[k].match(/\[hltxt\](.+?)\[\/hltxt\]/i)
+                  if (u)
+                    u = u[1]
+                }
               }
             }
+            if (u) u = '<span class=hltxt>' + u + '</span>'
+            var i = x[k].match(/\[img\](.+?)\[\/img\]/i)
+            if (i) {
+              if (noimg)
+                u = self.writelink(i[1], i[1]), i = null
+              else
+                i = i[1], z._Img = 1
+            }
+            z.push({
+              'i': i,
+              'u': u
+            })
           }
-          if (u) u = '<span class=hltxt>' + u + '</span>'
-          var i = x[k].match(/\[img\](.+?)\[\/img\]/i)
-          if (i) {
-            if (noimg)
-              u = self.writelink(i[1], i[1]), i = null
-            else
-              i = i[1], z._Img = 1
-          }
-          z.push({
-            'i': i,
-            'u': u
+          if (!self.loadHeadLineElm) self.loadHeadLineElm = []
+          self.loadHeadLineElm.push(z)
+
+          return '<div></div><img style="display:none" src="about:blank" onerror="ubb.loadHeadLine(this.previousSibling,' + (self.loadHeadLineElm.length - 1) + ')"/>'
+        }
+      });
+    }
+
+    var img_count = 0;
+
+
+
+    if (c.indexOf('[album') != -1) {
+      c = c.replace(/\[album=?([^\]]{0,50})\](.+?)\[\/album\]/gi, function($0, $1, $2) {
+        var img = []
+        if ($2.match(/\[(?:img|url)\]/i))
+          $2.replace(/\]\s*((?:(?:https?:\/\/)|(?:\.\/))[^\[]+)\s*\[/ig, function($0, $1) {
+            if ($1.substr(0, 2) == './') $1 = commonui.getAttachBase($1) + '/' + $1.substr(2);
+            img.push($1)
           })
+        else
+          $2.replace(/(?:^|[^a-zA-Z0-9\-_\+=\.\$;\/\?:@&=#%])((?:https?:\/\/|\.\/)[a-zA-Z0-9\-_\+=\.\$;\/\?:@&=#%]+)/ig, function($0, $1) {
+            if ($1.substr(0, 2) == './') $1 = commonui.getAttachBase($1) + '/' + $1.substr(2);
+            img.push($1)
+          })
+        if (img[0]) {
+          var a = img[0]
+          if (a && a.substr(0, 2) == './')
+            a = commonui.getAttachBase(a) + '/' + a.substr(2);
+          if (commonui.ifUrlAttach(a) && a.substr(a.length - 10) != '.thumb.jpg')
+            a += '.thumb.jpg'
+          if (!$1)
+            $1 = '查看相册'
+          var arg = self.bbscodeConvArgsSave[argsId]
+          var tid = parseInt(arg.tId, 10)
+          var pid = parseInt(arg.pId, 10)
+          var id = self.album.albumCount++
+          if (!tid) tid = 0
+          if (!pid) pid = 0
+          self.album.cache[id] = {
+            album: img,
+            title: $1,
+            tid: tid,
+            pid: pid,
+            id: id
+          }
+          return "<table class='quote album'><tr><td><a href='./nuke/album.html?uid=" + __CURRENT_UID + "&tid=" + tid + "&pid=" + pid + "&id=" + id + "' target='_blank' onclick='ubb.album.open(\"" + id +
+            "\")'>" + $1 + "<br/><img src='about:blank' onerror='" + (noimg ? '' : "ubb.album.imgLoad(this,\"" + a + "\")") + "' style='display:none'/><br/>共" + img.length + "张图片 点击查看全部</a></td></tr></table>"
         }
-        if (!self.loadHeadLineElm) self.loadHeadLineElm = []
-        self.loadHeadLineElm.push(z)
-
-        return '<div></div><img style="display:none" src="about:blank" onerror="ubbcode.loadHeadLine(this.previousSibling,' + (self.loadHeadLineElm.length - 1) + ')"/>'
-      }
-    });
-  }
-
-  var img_count = 0;
-
-
-
-  if (c.indexOf('[album') != -1) {
-    c = c.replace(/\[album=?([^\]]{0,50})\](.+?)\[\/album\]/gi, function($0, $1, $2) {
-      var img = []
-      if ($2.match(/\[(?:img|url)\]/i))
-        $2.replace(/\]\s*((?:(?:https?:\/\/)|(?:\.\/))[^\[]+)\s*\[/ig, function($0, $1) {
-          if ($1.substr(0, 2) == './') $1 = commonui.getAttachBase($1) + '/' + $1.substr(2);
-          img.push($1)
-        })
-      else
-        $2.replace(/(?:^|[^a-zA-Z0-9\-_\+=\.\$;\/\?:@&=#%])((?:https?:\/\/|\.\/)[a-zA-Z0-9\-_\+=\.\$;\/\?:@&=#%]+)/ig, function($0, $1) {
-          if ($1.substr(0, 2) == './') $1 = commonui.getAttachBase($1) + '/' + $1.substr(2);
-          img.push($1)
-        })
-      if (img[0]) {
-        var a = img[0]
-        if (a && a.substr(0, 2) == './')
-          a = commonui.getAttachBase(a) + '/' + a.substr(2);
-        if (commonui.ifUrlAttach(a) && a.substr(a.length - 10) != '.thumb.jpg')
-          a += '.thumb.jpg'
-        if (!$1)
-          $1 = '查看相册'
-        var arg = self.bbscodeConvArgsSave[argsId]
-        var tid = parseInt(arg.tId, 10)
-        var pid = parseInt(arg.pId, 10)
-        var id = self.album.albumCount++
-        if (!tid) tid = 0
-        if (!pid) pid = 0
-        self.album.cache[id] = {
-          album: img,
-          title: $1,
-          tid: tid,
-          pid: pid,
-          id: id
-        }
-        return "<table class='quote album'><tr><td><a href='./nuke/album.html?uid=" + __CURRENT_UID + "&tid=" + tid + "&pid=" + pid + "&id=" + id + "' target='_blank' onclick='ubbcode.album.open(\"" + id +
-          "\")'>" + $1 + "<br/><img src='about:blank' onerror='" + (noimg ? '' : "ubbcode.album.imgLoad(this,\"" + a + "\")") + "' style='display:none'/><br/>共" + img.length + "张图片 点击查看全部</a></td></tr></table>"
-      }
-      return "[album=" + $1 + "]" + $2 + "[/album]"
-    }); //[album\]
-  } //if
-
-  if (noimg != 2) {
-    c = c.replace(/\[img(\d{0,3})\](.+?)\[\/img\]/gi, function($0, $1, $2) {
-      if ($2.match(/^[\x00-\x7F]+$/))
-        var src = $2;
-      else
-        var src = '';
-      if (src && src.substr(0, 2).toLowerCase() == './')
-        src = commonui.getAttachBase(src) + '/' + src.substr(2);
-      if (src && src.substr(0, 7).toLowerCase() != 'http://')
-        src = 'http://' + src;
-      if ($1 && $1 <= 100 && $1 > 0)
-        $1 = "style='width:" + ($1 - 0.1) + "%'";
-      else {
-        if (__SETTING.uA[0] == 1) { //ie根据父元素宽度计算最大宽度
-          var x = self.bbscodeConvArgsSave[argsId].parentWidth
-          $1 = "style='max-width:" + (x ? Math.floor(x * 0.9) - 10 : 650) + "px' onload='ubbcode.adjImgSize(this)'";
-        } else
-          $1 = "style='' class='imgmaxwidth' onload='ubbcode.adjImgSize(this)'";
-      }
-
-      if (commonui.ifUrlAttach(src)) {
-        if (src.substr(src.length - 10) == '.thumb.jpg')
-          return ("<a href='" + src.substr(0, src.length - 10) + "' class='thumblink' target='_blank'><img src='" + src + "' onerror='this.onerror=null;this.parentNode.title=\"\";this.src=\"" + src.substr(0, src.length - 10).replace(/&/g, '&amp;') + "\"'/></a>")
-        img_count++
-        if (img_count > 50)
-          return ("<a href='" + src + "' title='为了保证正常浏览，暂不显示全部大图' class='thumblink' target='_blank'><img src='" + src + ".thumb.jpg' onerror='this.onerror=null;this.parentNode.title=\"\";this.src=\"" + src.replace(/&/g, '&amp;') + "\"'/></a>")
-      } else {
-        src = src.replace(/^http:\/\/db1?\.178\.com\//i, 'http://img.db.178.com/')
-      }
-
-      //if(src.match(/ngacn\.cc/gi))return "为了保证正常浏览，暂不显示签名中的图片";
-
-      var x = "<img " + $1 + " src='" + src + "' alt='' onerror='this.nextSibling.style.display=\"inline\"'/><span class='silver' style='display:none'> [ " + $2 + " ] </span>"
-      if (noimg) {
-        var id = 'id' + Math.random()
-        self.manualLoadCache[id] = x
-        return "<button type='button' onclick='this.nextSibling.innerHTML=ubbcode.manualLoadCache[\"" + id + "\"];this.nextSibling.style.display=\"\";this.style.display=\"none\"'>点击显示图片</button><span style='display:none'></span>"
-      } else
-        return x;
-      /*
-      return "<button type='button' onclick='this.nextSibling.onerror=function(){this.nextSibling.style.display=\"inline\"};this.nextSibling.src=\""+src.replace(/&/g,'&amp;')+"\";this.nextSibling.style.display=\"\";this.style.display=\"none\"'>点击显示图片</button><img "+$1.replace("style='","style='display:none;")+" src='about:blank' alt=''/><span class='silver' style='display:none'> [ "+$2+" ] </span>"
-
-      return "<img "+$1+" src='"+src+"' alt='' onerror='this.nextSibling.style.display=\"inline\"'/><span class='silver' style='display:none'> [ "+$2+" ] </span>"
-      */
-    }); //[img]
-
-    if (c.indexOf('[flash') != -1) {
-      c = c.replace(/\[flash\](.+?)\[\/flash\]/gi, function($0, $1) {
-        var w = 480,
-          h = 400,
-          u = $1.replace('.bilibili.us', '.bilibili.tv').replace(/(is)?AutoPlay=.+?(&|$)/ig, ''),
-          x
-        if (x = u.match(/(?:http:\/\/)?v\.youku\.com\/v_show\/id_(.+?)\.html/)) {
-          u = 'http://player.youku.com/player.php/sid/' + x[1] + '/v.swf'
-          w = 600, h = 498
-        }
-        if (x = u.match(/(?:http:\/\/)?www\.bilibili\.tv\/video\/av(\d+)/)) {
-          u = 'http://static.hdslb.com/miniloader.swf?aid=' + x[1] + '&page=1'
-          w = 600, h = 498
-        }
-        if (u.substr(0, 7).toLowerCase() != 'http://')
-          u = 'http://' + u
-        if (self.checklink(u, 1) != 1)
-          return $0
-        self.videonum++
-        var x = "<object class='video' width='" + w + "' height='" + h + "' classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0'><param name='movie' value='" + u + "'><embed src='" + u + "' quality='high' type='application/x-shockwave-flash' width='" + w + "' height='" + h + "' allowfullscreen='true'></embed><i>如在以上内容中出现任何广告性信息并不代表本站支持其立场</i></object>"
-        if (noimg || self.videonum > 1) {
-          var id = 'id' + Math.random()
-          self.manualLoadCache[id] = x
-          return "<button type='button' onclick='this.nextSibling.innerHTML=ubbcode.manualLoadCache[\"" + id + "\"];this.nextSibling.style.display=\"\";this.style.display=\"none\"'>点击显示Flash</button><span style='display:none'></span>"
-        } else
-          return x
-      }); //[flash]
+        return "[album=" + $1 + "]" + $2 + "[/album]"
+      }); //[album\]
     } //if
 
-    if (c.indexOf('[iframe') != -1) {
-      c = c.replace(/\[iframe=(\d+),(\d+)\](https?)(.+?)\[\/iframe\]/gi, function($0, $1, $2, $3, $4) {
-        $1 = parseInt($1, 10);
-        $2 = parseInt($2, 10)
-        $1 = (!$1 || $1 > 1000) ? 500 : $1
-        $2 = (!$2 || $2 > 2000) ? 500 : $2
-        var u = $3 + $4,
-          x = $0
-        for (var k in self.checkIframeTable)
-          if (u.indexOf(self.checkIframeTable[k]) == 0)
-            x = "<div style='border:1px solid #444;width:" + $1 + "px;height:" + ($2 + 10) + "px;overflow:hidden'><div style='font-size:8px;line-height:10px;height:10px;overflow:hidden'>IFRAME:" + u + "</div><iframe frameborder=0 marginheight=0 marginwidth=0 scrolling='no' style='border:none;width:" + $1 + "px;height:" + $2 + "px;overflow:hidden;margin:0;background:transparent' src='" + u + "'></iframe></div>";
+    if (noimg != 2) {
+      c = c.replace(/\[img(\d{0,3})\](.+?)\[\/img\]/gi, function($0, $1, $2) {
+        if ($2.match(/^[\x00-\x7F]+$/))
+          var src = $2;
+        else
+          var src = '';
+        if (src && src.substr(0, 2).toLowerCase() == './')
+          src = commonui.getAttachBase(src) + '/' + src.substr(2);
+        if (src && src.substr(0, 7).toLowerCase() != 'http://')
+          src = 'http://' + src;
+        if ($1 && $1 <= 100 && $1 > 0)
+          $1 = "style='width:" + ($1 - 0.1) + "%'";
+        else {
+          if (__SETTING.uA[0] == 1) { //ie根据父元素宽度计算最大宽度
+            var x = self.bbscodeConvArgsSave[argsId].parentWidth
+            $1 = "style='max-width:" + (x ? Math.floor(x * 0.9) - 10 : 650) + "px' onload='ubb.adjImgSize(this)'";
+          } else
+            $1 = "style='' class='imgmaxwidth' onload='ubb.adjImgSize(this)'";
+        }
 
+        if (commonui.ifUrlAttach(src)) {
+          if (src.substr(src.length - 10) == '.thumb.jpg')
+            return ("<a href='" + src.substr(0, src.length - 10) + "' class='thumblink' target='_blank'><img src='" + src + "' onerror='this.onerror=null;this.parentNode.title=\"\";this.src=\"" + src.substr(0, src.length - 10).replace(/&/g, '&amp;') + "\"'/></a>")
+          img_count++
+          if (img_count > 50)
+            return ("<a href='" + src + "' title='为了保证正常浏览，暂不显示全部大图' class='thumblink' target='_blank'><img src='" + src + ".thumb.jpg' onerror='this.onerror=null;this.parentNode.title=\"\";this.src=\"" + src.replace(/&/g, '&amp;') + "\"'/></a>")
+        } else {
+          src = src.replace(/^http:\/\/db1?\.178\.com\//i, 'http://img.db.178.com/')
+        }
+
+        //if(src.match(/ngacn\.cc/gi))return "为了保证正常浏览，暂不显示签名中的图片";
+
+        var x = "<img " + $1 + " src='" + src + "' alt='' onerror='this.nextSibling.style.display=\"inline\"'/><span class='silver' style='display:none'> [ " + $2 + " ] </span>"
         if (noimg) {
           var id = 'id' + Math.random()
           self.manualLoadCache[id] = x
-          return "<button type='button' onclick='this.nextSibling.innerHTML=ubbcode.manualLoadCache[\"" + id + "\"];this.nextSibling.style.display=\"\";this.style.display=\"none\"'>点击显示页面</button><span style='display:none'></span>"
+          return "<button type='button' onclick='this.nextSibling.innerHTML=ubb.manualLoadCache[\"" + id + "\"];this.nextSibling.style.display=\"\";this.style.display=\"none\"'>点击显示图片</button><span style='display:none'></span>"
         } else
-          return x
-      }); //[iframe]
-    } //if
+          return x;
+        /*
+        return "<button type='button' onclick='this.nextSibling.onerror=function(){this.nextSibling.style.display=\"inline\"};this.nextSibling.src=\""+src.replace(/&/g,'&amp;')+"\";this.nextSibling.style.display=\"\";this.style.display=\"none\"'>点击显示图片</button><img "+$1.replace("style='","style='display:none;")+" src='about:blank' alt=''/><span class='silver' style='display:none'> [ "+$2+" ] </span>"
 
-    if (noimg) {} else
-      c = c.replace(/\[s:(\d{1,11})\]/gi, function($0, $1) {
-        return ("<img src='" + self.smiles[$1] + "' alt=''/>")
-      }); //[smile]
+        return "<img "+$1+" src='"+src+"' alt='' onerror='this.nextSibling.style.display=\"inline\"'/><span class='silver' style='display:none'> [ "+$2+" ] </span>"
+        */
+      }); //[img]
 
+      if (c.indexOf('[flash') != -1) {
+        c = c.replace(/\[flash\](.+?)\[\/flash\]/gi, function($0, $1) {
+          var w = 480,
+            h = 400,
+            u = $1.replace('.bilibili.us', '.bilibili.tv').replace(/(is)?AutoPlay=.+?(&|$)/ig, ''),
+            x
+          if (x = u.match(/(?:http:\/\/)?v\.youku\.com\/v_show\/id_(.+?)\.html/)) {
+            u = 'http://player.youku.com/player.php/sid/' + x[1] + '/v.swf'
+            w = 600, h = 498
+          }
+          if (x = u.match(/(?:http:\/\/)?www\.bilibili\.tv\/video\/av(\d+)/)) {
+            u = 'http://static.hdslb.com/miniloader.swf?aid=' + x[1] + '&page=1'
+            w = 600, h = 498
+          }
+          if (u.substr(0, 7).toLowerCase() != 'http://')
+            u = 'http://' + u
+          if (self.checklink(u, 1) != 1)
+            return $0
+          self.videonum++
+          var x = "<object class='video' width='" + w + "' height='" + h + "' classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0'><param name='movie' value='" + u + "'><embed src='" + u + "' quality='high' type='application/x-shockwave-flash' width='" + w + "' height='" + h + "' allowfullscreen='true'></embed><i>如在以上内容中出现任何广告性信息并不代表本站支持其立场</i></object>"
+          if (noimg || self.videonum > 1) {
+            var id = 'id' + Math.random()
+            self.manualLoadCache[id] = x
+            return "<button type='button' onclick='this.nextSibling.innerHTML=ubb.manualLoadCache[\"" + id + "\"];this.nextSibling.style.display=\"\";this.style.display=\"none\"'>点击显示Flash</button><span style='display:none'></span>"
+          } else
+            return x
+        }); //[flash]
+      } //if
 
-  } //noimg
+      if (c.indexOf('[iframe') != -1) {
+        c = c.replace(/\[iframe=(\d+),(\d+)\](https?)(.+?)\[\/iframe\]/gi, function($0, $1, $2, $3, $4) {
+          $1 = parseInt($1, 10);
+          $2 = parseInt($2, 10)
+          $1 = (!$1 || $1 > 1000) ? 500 : $1
+          $2 = (!$2 || $2 > 2000) ? 500 : $2
+          var u = $3 + $4,
+            x = $0
+          for (var k in self.checkIframeTable)
+            if (u.indexOf(self.checkIframeTable[k]) == 0)
+              x = "<div style='border:1px solid #444;width:" + $1 + "px;height:" + ($2 + 10) + "px;overflow:hidden'><div style='font-size:8px;line-height:10px;height:10px;overflow:hidden'>IFRAME:" + u + "</div><iframe frameborder=0 marginheight=0 marginwidth=0 scrolling='no' style='border:none;width:" + $1 + "px;height:" + $2 + "px;overflow:hidden;margin:0;background:transparent' src='" + u + "'></iframe></div>";
 
-  c = c.replace(/\[attach\](.+?)\[\/attach\]/gi, function($0, $1) {
-    if ($1 && $1.substr(0, 2).toLowerCase() == './')
-      $1 = commonui.getAttachBase($1) + '/' + $1.substr(2);
-    if (commonui.ifUrlAttach($1))
-      return self.writelink($1, $1)
-  });
+          if (noimg) {
+            var id = 'id' + Math.random()
+            self.manualLoadCache[id] = x
+            return "<button type='button' onclick='this.nextSibling.innerHTML=ubb.manualLoadCache[\"" + id + "\"];this.nextSibling.style.display=\"\";this.style.display=\"none\"'>点击显示页面</button><span style='display:none'></span>"
+          } else
+            return x
+        }); //[iframe]
+      } //if
 
-
-
-  c = c.replace(/\[url=(https?|ftp|gopher|news|telnet|mms|rtsp|)(.+?)\](.+?)\[\/url\]/gi, function($0, $1, $2, $3) {
-    if (!$1) $1 = 'http://';
-    return (self.writelink($1 + $2, $3))
-  }); //[url]
-
-  c = c.replace(/\[url\](https?|ftp|gopher|news|telnet|mms|rtsp)(.+?)\[\/url\]/gi, function($0, $1, $2) {
-    return (self.writelink($1 + $2, $1 + $2))
-  }); //[url]
-
-  c = c.replace(/\[(tid|pid)=?([\d,]{0,50})\](.+?)\[\/\1\]/gi, function($0, $1, $2, $3) {
-    return self.postLinkTag($1, $2, $3)
-  })
-
-  c = c.replace(/\[@(.{2,20}?)\]/gi, function($0, $1) {
-    return " <a href='/nuke.php?func=ucp&charset=UTF-8&username=" + encodeURIComponent($1) + "' class='b'>" + $0 + "</a> "
-  }); //[@]
-
-  c = c.replace(/(?:<br\s*\/?>)?\s*\[h\](.*?)\[\/h\]\s*(?:<br\s*\/?>)?/gi, function($0, $1) {
-    if ($1) {
-      return "<h4>" + $1 + "</h4>"
-    } else {
-      return "<h4 class='subtitle' style='line-height:0;font-size:0;padding:0;margin:0 0 3px 0;height:0'></h4>"
-    }
-  }); //[h]
-  c = c.replace(/(<br\s*\/?>)?\s*(={3,100})([\u0000-\uffff]+?)(={3,100})\s*(<br\s*\/?>)?/gi,
-    function($0, $1, $2, $3, $4, $5) {
-      if ($3.length <= 100 && !$3.match(/<br\s*\/?>/i)) {
-        if ($3 == '=') $3 = '';
-        $2 = "<h4 class='subtitle'>";
-        $4 = "</h4>";
-        $1 = $5 = '';
-      }
-      if (!$1) $1 = ''
-      if (!$2) $2 = ''
-      if (!$3) $3 = ''
-      if (!$4) $4 = ''
-      if (!$5) $5 = ''
-      return $1 + $2 + $3 + $4 + $5
-    }); //[h]
-
-  c = c.replace(/(<br\s*\/?>)?\s*(={6,100})\s*(<br\s*\/?>)?/gi,
-    function($0, $1, $2, $3) {
-      $2 = "<h4 class='subtitle'></h4>";
-      $1 = $3 = '';
-      return $1 + $2 + $3
-    }); //[h]
+      if (noimg) {} else
+        c = c.replace(/\[s:(\d{1,11})\]/gi, function($0, $1) {
+          return ("<img src='" + self.smiles[$1] + "' alt=''/>")
+        }); //[smile]
 
 
+    } //noimg
 
-  c = c.replace(/(?:<br\/>)?\s*\[(l|r)(\d*)\]\s*(?:<br\/>)?\s*(.+?)\s*(?:<br\/>)?\s*\[\/\1\]\s*(?:<br\/>)?/gi, function($0, $1, $2, $3) {
-    if ($2 && $2 > 0 && $2 <= 100)
-      $2 = "style='overflow:hidden;width:" + ($2 - 0.1) + "%'"
-    else
-      $2 = ''
-    if ($1 == 'l')
-      $1 = 'left'
-    else
-      $1 = 'right'
-    return "<div " + $2 + " class='" + $1 + "'>" + $3 + "</div>"
-  }); //[left][right]
+    c = c.replace(/\[attach\](.+?)\[\/attach\]/gi, function($0, $1) {
+      if ($1 && $1.substr(0, 2).toLowerCase() == './')
+        $1 = commonui.getAttachBase($1) + '/' + $1.substr(2);
+      if (commonui.ifUrlAttach($1))
+        return self.writelink($1, $1)
+    });
 
-  c = c.replace(/p_w_upload/gi, "attachment"); //[img]
 
-  c = c.replace(/\[collapse(=[^\]]{1,50})?\]\s*(?:<br\s*\/?>)*\s*(.+?)\s*(?:<br\s*\/?>)*\s*\[\/collapse\]/gi, function($0, $1, $2) {
-    if ($1) $1 = '<b class="gray">' + $1.substr(1) + ' ...</b>'
-    else $1 = '<b class="gray">点击显示隐藏的内容 ...</b>'
-    return "<div class='collapse_btn'><button onclick='this.parentNode.style.display=\"none\";this.parentNode.nextSibling.style.display=\"block\";' type='button' name='collapseButton'>+</button> " + $1 + "</div><div class='collapse_content' style='display:none'>" + $2 + "</div>"
-  });
 
-  c = c.replace(/\[t\.178\.com\/(.+?)\]/, function($0, $1) {
-    if ($1.substr(0, 1) == '#') {
-      var arg = self.bbscodeConvArgsSave[argsId]
-      if (arg.isSig) return;
-      var x = arg.c,
-        b = null
-      while (x != document.body) {
-        x = x.parentNode
-        if (x.className.match(/c\d+/)) {
-          b = commonui.rgbToHex(commonui.getStyle(x, 'background-color')).substr(1)
-          break
-        }
-      }
-      var x = _$('<a/>')._.css('display', 'none')
-      arg.c.appendChild(x)
-      var a = commonui.rgbToHex(commonui.getStyle(x, 'color')).substr(1),
-        c = commonui.rgbToHex(commonui.getStyle(arg.c, 'color')).substr(1),
-        u = "http://t.178.com/widget/topic/publish?keyword=" + encodeURIComponent($1.substr(1, $1.length - 2)) + "&height=400&color=" + b + ',' + c + ',' + a + "&number=20"
-      arg.c.removeChild(x)
-      return "<div style='border:1px solid #444;border-left:none;border-right:none;width:90%;height:645px;overflow:hidden'><iframe frameborder=0 marginheight=0 marginwidth=0 scrolling='no' style='border:none;width:100%;height:635px;overflow:hidden;margin:0;background:transparent' src='" + u + "'></iframe><div style='font-size:8px;line-height:10px;height:10px;overflow:hidden'>IFRAME:" + u + "</div></div>";
-    }
-    var id = '_t178com' + Math.random();
-    httpDataGetter.script_muti_get('http://t.178.com/api/nga/get_tweets?js=1&user_id=' + $1,
-      function(r) {
-        if (r.result == false)
-          $(id).innerHTML = '<span class=silver>[t.178.com:ERROR:' + r.code + ' ' + r.reason + ']</span>'
-        else {
-          if (r.data)
-            $(id).innerHTML = self.bbscode_t178_tpl(r.data[0], null, $1)
-          else
-            $(id).innerHTML = "<span class=silver>[t.178.com/" + $1 + ":ERROR:无内容]</span>"
+    c = c.replace(/\[url=(https?|ftp|gopher|news|telnet|mms|rtsp|)(.+?)\](.+?)\[\/url\]/gi, function($0, $1, $2, $3) {
+      if (!$1) $1 = 'http://';
+      return (self.writelink($1 + $2, $3))
+    }); //[url]
 
-        }
-        return true
-      },
-      function() {
-        $(id).innerHTML = '<span class=silver>[t.178.com:ERROR:无法获取数据]</span>'
-      }
-    );
-    return "<span id='" + id + "'></span>"
-  });
+    c = c.replace(/\[url\](https?|ftp|gopher|news|telnet|mms|rtsp)(.+?)\[\/url\]/gi, function($0, $1, $2) {
+      return (self.writelink($1 + $2, $1 + $2))
+    }); //[url]
 
-  c = c.replace(/\[audit\]待审核\[\/audit\]/gi, function($0) {
-    var arg = self.bbscodeConvArgsSave[argsId]
-    return "<a href='javascript:void(0)' onclick='commonui.audit(event," + arg.tId + "," + arg.pId + ")' class='b red'>[待审核]</a>"
-  }); //[img]
-
-  if (c.indexOf('[randomblock]') != -1) {
-    var x = [],
-      did = 'randomblock' + Math.floor(Math.random() * 10000);
-    c = c.replace(/(?:\s*<br\s*\/?>\s*)*\s*\[randomblock]\s*(?:\s*<br\s*\/?>\s*)*(.+?)(?:\s*<br\s*\/?>\s*)*\s*\[\/randomblock]\s*(?:\s*<br\s*\/?>\s*)*/gi, function($0, $1) {
-      var id = did + x.length
-      x.push(id)
-      return "<div style='border-top:1px solid #fff;border-bottom:1px solid #fff;display:none' id='" + id + "'><button style='font-size:12px;line-height:normal;padding:0px 2px;float:left;font-weight:bold' onclick='ubbcode.randomBlock.show(\"" + did + "\",1)' title='显示所有的随机内容' type='button' name='randomblockButton'>+</button>" + $1 + "</div>"
+    c = c.replace(/\[(tid|pid)=?([\d,]{0,50})\](.+?)\[\/\1\]/gi, function($0, $1, $2, $3) {
+      return self.postLinkTag($1, $2, $3)
     })
-    if (x.length) {
-      c += "<img src='about:blank' style='display:none' onerror='ubbcode.randomBlock.show(\"" + did + "\")'/>";
-      self.randomBlock.all[did] = x
+
+    c = c.replace(/\[@(.{2,20}?)\]/gi, function($0, $1) {
+      return " <a href='/nuke.php?func=ucp&charset=UTF-8&username=" + encodeURIComponent($1) + "' class='b'>" + $0 + "</a> "
+    }); //[@]
+
+    c = c.replace(/(?:<br\s*\/?>)?\s*\[h\](.*?)\[\/h\]\s*(?:<br\s*\/?>)?/gi, function($0, $1) {
+      if ($1) {
+        return "<h4>" + $1 + "</h4>"
+      } else {
+        return "<h4 class='subtitle' style='line-height:0;font-size:0;padding:0;margin:0 0 3px 0;height:0'></h4>"
+      }
+    }); //[h]
+    c = c.replace(/(<br\s*\/?>)?\s*(={3,100})([\u0000-\uffff]+?)(={3,100})\s*(<br\s*\/?>)?/gi,
+      function($0, $1, $2, $3, $4, $5) {
+        if ($3.length <= 100 && !$3.match(/<br\s*\/?>/i)) {
+          if ($3 == '=') $3 = '';
+          $2 = "<h4 class='subtitle'>";
+          $4 = "</h4>";
+          $1 = $5 = '';
+        }
+        if (!$1) $1 = ''
+        if (!$2) $2 = ''
+        if (!$3) $3 = ''
+        if (!$4) $4 = ''
+        if (!$5) $5 = ''
+        return $1 + $2 + $3 + $4 + $5
+      }); //[h]
+
+    c = c.replace(/(<br\s*\/?>)?\s*(={6,100})\s*(<br\s*\/?>)?/gi,
+      function($0, $1, $2, $3) {
+        $2 = "<h4 class='subtitle'></h4>";
+        $1 = $3 = '';
+        return $1 + $2 + $3
+      }); //[h]
+
+
+
+    c = c.replace(/(?:<br\/>)?\s*\[(l|r)(\d*)\]\s*(?:<br\/>)?\s*(.+?)\s*(?:<br\/>)?\s*\[\/\1\]\s*(?:<br\/>)?/gi, function($0, $1, $2, $3) {
+      if ($2 && $2 > 0 && $2 <= 100)
+        $2 = "style='overflow:hidden;width:" + ($2 - 0.1) + "%'"
+      else
+        $2 = ''
+      if ($1 == 'l')
+        $1 = 'left'
+      else
+        $1 = 'right'
+      return "<div " + $2 + " class='" + $1 + "'>" + $3 + "</div>"
+    }); //[left][right]
+
+    c = c.replace(/p_w_upload/gi, "attachment"); //[img]
+
+    c = c.replace(/\[collapse(=[^\]]{1,50})?\]\s*(?:<br\s*\/?>)*\s*(.+?)\s*(?:<br\s*\/?>)*\s*\[\/collapse\]/gi, function($0, $1, $2) {
+      if ($1) $1 = '<b class="gray">' + $1.substr(1) + ' ...</b>'
+      else $1 = '<b class="gray">点击显示隐藏的内容 ...</b>'
+      return "<div class='collapse_btn'><button onclick='this.parentNode.style.display=\"none\";this.parentNode.nextSibling.style.display=\"block\";' type='button' name='collapseButton'>+</button> " + $1 + "</div><div class='collapse_content' style='display:none'>" + $2 + "</div>"
+    });
+
+    c = c.replace(/\[t\.178\.com\/(.+?)\]/, function($0, $1) {
+      if ($1.substr(0, 1) == '#') {
+        var arg = self.bbscodeConvArgsSave[argsId];
+        if (arg.isSig) return;
+        var x = arg.c,
+          b = null
+        while (x != document.body) {
+          x = x.parentNode
+          if (x.className.match(/c\d+/)) {
+            b = commonui.rgbToHex(commonui.getStyle(x, 'background-color')).substr(1)
+            break
+          }
+        }
+        var x = _$('<a/>')._.css('display', 'none')
+        arg.c.appendChild(x)
+        var a = commonui.rgbToHex(commonui.getStyle(x, 'color')).substr(1),
+          c = commonui.rgbToHex(commonui.getStyle(arg.c, 'color')).substr(1),
+          u = "http://t.178.com/widget/topic/publish?keyword=" + encodeURIComponent($1.substr(1, $1.length - 2)) + "&height=400&color=" + b + ',' + c + ',' + a + "&number=20"
+        arg.c.removeChild(x)
+        return "<div style='border:1px solid #444;border-left:none;border-right:none;width:90%;height:645px;overflow:hidden'><iframe frameborder=0 marginheight=0 marginwidth=0 scrolling='no' style='border:none;width:100%;height:635px;overflow:hidden;margin:0;background:transparent' src='" + u + "'></iframe><div style='font-size:8px;line-height:10px;height:10px;overflow:hidden'>IFRAME:" + u + "</div></div>";
+      }
+      var id = '_t178com' + Math.random();
+      httpDataGetter.script_muti_get('http://t.178.com/api/nga/get_tweets?js=1&user_id=' + $1,
+        function(r) {
+
+          if (r.result == false)
+            $(id).innerHTML = '<span class=silver>[t.178.com:ERROR:' + r.code + ' ' + r.reason + ']</span>'
+          else {
+            if (r.data)
+              $(id).innerHTML = self.bbscode_t178_tpl(r.data[0], null, $1)
+            else
+              $(id).innerHTML = "<span class=silver>[t.178.com/" + $1 + ":ERROR:无内容]</span>"
+
+          }
+          return true
+        },
+        function() {
+          $(id).innerHTML = '<span class=silver>[t.178.com:ERROR:无法获取数据]</span>'
+        }
+      );
+      return "<span id='" + id + "'></span>"
+    });
+
+    c = c.replace(/\[audit\]待审核\[\/audit\]/gi, function($0) {
+      var arg = self.bbscodeConvArgsSave[argsId]
+      return "<a href='javascript:void(0)' onclick='commonui.audit(event," + arg.tId + "," + arg.pId + ")' class='b red'>[待审核]</a>"
+    }); //[img]
+
+    if (c.indexOf('[randomblock]') != -1) {
+      var x = [],
+        did = 'randomblock' + Math.floor(Math.random() * 10000);
+      c = c.replace(/(?:\s*<br\s*\/?>\s*)*\s*\[randomblock]\s*(?:\s*<br\s*\/?>\s*)*(.+?)(?:\s*<br\s*\/?>\s*)*\s*\[\/randomblock]\s*(?:\s*<br\s*\/?>\s*)*/gi, function($0, $1) {
+        var id = did + x.length
+        x.push(id)
+        return "<div style='border-top:1px solid #fff;border-bottom:1px solid #fff;display:none' id='" + id + "'><button style='font-size:12px;line-height:normal;padding:0px 2px;float:left;font-weight:bold' onclick='ubb.randomBlock.show(\"" + did + "\",1)' title='显示所有的随机内容' type='button' name='randomblockButton'>+</button>" + $1 + "</div>"
+      })
+      if (x.length) {
+        c += "<img src='about:blank' style='display:none' onerror='ubb.randomBlock.show(\"" + did + "\")'/>";
+        self.randomBlock.all[did] = x
+      }
     }
-  }
-  return c;
-} //fe
+    return c;
+  };
 //=============================
 //random
 //=============================
-ubbcode.upupProc = function(o) {
+ubb.upupProc = function(o) {
   if (!this.upupProc.data)
     this.upupProc.data = []
   if (o)
@@ -651,7 +653,7 @@ ubbcode.upupProc = function(o) {
     if (!this.upupProc.loading) {
       this.upupProc.loading = true
       loader.script(__COMMONRES_PATH + '/js_upup.js?432457', function() {
-        ubbcode.upupProc()
+        ubb.upupProc()
       }, 0, 0)
     }
     return
@@ -669,7 +671,7 @@ ubbcode.upupProc = function(o) {
 //=============================
 //random
 //=============================
-ubbcode.randomBlock = {
+ubb.randomBlock = {
   all: [],
   show: function(id, x) {
     if (!this.all[id]) return
@@ -684,7 +686,7 @@ ubbcode.randomBlock = {
 //=============================
 //嵌套引用
 //=============================
-ubbcode.parseQuote = {
+ubb.parseQuote = {
   count: false,
   parse: function(c) {
     this.count = c.indexOf('[quote') + 1
@@ -711,7 +713,7 @@ ubbcode.parseQuote = {
 //=============================
 //图片尺寸调整
 //=============================
-ubbcode.adjImgSize = function(o) {
+ubb.adjImgSize = function(o) {
   if (o.src == 'about:blank') return
   var x = null
   if (o.naturalWidth) {
@@ -738,12 +740,12 @@ ubbcode.adjImgSize = function(o) {
 //=============================
 //随机数
 //=============================
-ubbcode.sRand = {
+ubb.sRand = {
   seed: 2110032,
   rnd: function(argsId) {
     if (argsId) {
       if (!this.seeds[argsId]) {
-        var arg = ubbcode.bbscodeConvArgsSave[argsId]
+        var arg = ubb.bbscodeConvArgsSave[argsId]
         this.seeds[argsId] = arg.authorId + arg.tId + arg.pId
         if (!this.seeds[argsId])
           this.seeds[argsId] = Math.floor(Math.random() * 10000)
@@ -766,15 +768,15 @@ ubbcode.sRand = {
 // .seedrandom('yowza', true) Seeds using the given explicit seed mixed with accumulated entropy.
 // .random()  gen
 /*
-ubbcode.sRand_v2={}
-(function(j,i,g,m,k,n,o){function q(b){var e,f,a=this,c=b.length,d=0,h=a.i=a.j=a.m=0;a.S=[];a.c=[];for(c||(b=[c++]);d<g;)a.S[d]=d++;for(d=0;d<g;d++)e=a.S[d],h=h+e+b[d%c]&g-1,f=a.S[h],a.S[d]=f,a.S[h]=e;a.g=function(b){var c=a.S,d=a.i+1&g-1,e=c[d],f=a.j+e&g-1,h=c[f];c[d]=h;c[f]=e;for(var i=c[e+h&g-1];--b;)d=d+1&g-1,e=c[d],f=f+e&g-1,h=c[f],c[d]=h,c[f]=e,i=i*g+c[e+h&g-1];a.i=d;a.j=f;return i};a.g(g)}function p(b,e,f,a,c){f=[];c=typeof b;if(e&&c=="object")for(a in b)if(a.indexOf("S")<5)try{f.push(p(b[a],e-1))}catch(d){}return f.length?f:b+(c!="string"?"\0":"")}function l(b,e,f,a){b+="";for(a=f=0;a<b.length;a++){var c=e,d=a&g-1,h=(f^=e[a&g-1]*19)+b.charCodeAt(a);c[d]=h&g-1}b="";for(a in e)b+=String.fromCharCode(e[a]);return b}i.seedrandom=function(b,e){var f=[],a;b=l(p(e?[b,j]:arguments.length?b:[(new Date).getTime(),j,window],3),f);a=new q(f);l(a.S,j);i.random=function(){for(var c=a.g(m),d=o,b=0;c<k;)c=(c+b)*g,d*=g,b=a.g(1);for(;c>=n;)c/=2,d/=2,b>>>=1;return(c+b)/d};return b};o=Math.pow(g,m);k=Math.pow(2,k);n=k*2;l(Math.random(),j)})([],ubbcode.sRand_v2,256,6,52);
+ubb.sRand_v2={}
+(function(j,i,g,m,k,n,o){function q(b){var e,f,a=this,c=b.length,d=0,h=a.i=a.j=a.m=0;a.S=[];a.c=[];for(c||(b=[c++]);d<g;)a.S[d]=d++;for(d=0;d<g;d++)e=a.S[d],h=h+e+b[d%c]&g-1,f=a.S[h],a.S[d]=f,a.S[h]=e;a.g=function(b){var c=a.S,d=a.i+1&g-1,e=c[d],f=a.j+e&g-1,h=c[f];c[d]=h;c[f]=e;for(var i=c[e+h&g-1];--b;)d=d+1&g-1,e=c[d],f=f+e&g-1,h=c[f],c[d]=h,c[f]=e,i=i*g+c[e+h&g-1];a.i=d;a.j=f;return i};a.g(g)}function p(b,e,f,a,c){f=[];c=typeof b;if(e&&c=="object")for(a in b)if(a.indexOf("S")<5)try{f.push(p(b[a],e-1))}catch(d){}return f.length?f:b+(c!="string"?"\0":"")}function l(b,e,f,a){b+="";for(a=f=0;a<b.length;a++){var c=e,d=a&g-1,h=(f^=e[a&g-1]*19)+b.charCodeAt(a);c[d]=h&g-1}b="";for(a in e)b+=String.fromCharCode(e[a]);return b}i.seedrandom=function(b,e){var f=[],a;b=l(p(e?[b,j]:arguments.length?b:[(new Date).getTime(),j,window],3),f);a=new q(f);l(a.S,j);i.random=function(){for(var c=a.g(m),d=o,b=0;c<k;)c=(c+b)*g,d*=g,b=a.g(1);for(;c>=n;)c/=2,d/=2,b>>>=1;return(c+b)/d};return b};o=Math.pow(g,m);k=Math.pow(2,k);n=k*2;l(Math.random(),j)})([],ubb.sRand_v2,256,6,52);
 */
 
 //=============================
 //code标签
 //=============================
 
-ubbcode.codeTag = {
+ubb.codeTag = {
   cache: {},
   highlighter: {
     lua: "/js_highlighter.lua.js",
@@ -794,7 +796,7 @@ ubbcode.codeTag = {
         l = $1 ? $1.substr(1) : 'c',
         id = 'code' + Math.floor(Math.random() * 1000)
         self.saveCode(id, l, s.replace(/<br\s*\/?>/ig, "\r\n").replace(/&nbsp;/g, ' ').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, "&"))
-        return "<span class='orange'>Code <span class='gray'>(" + l + ")</span>:</span><br><div class='textfield' id='" + id + "'></div><img src='about:blank' onerror='ubbcode.codeTag.loadCode(this.previousSibling,this.previousSibling.id)' class='x'/><br/><br/>";
+        return "<span class='orange'>Code <span class='gray'>(" + l + ")</span>:</span><br><div class='textfield' id='" + id + "'></div><img src='about:blank' onerror='ubb.codeTag.loadCode(this.previousSibling,this.previousSibling.id)' class='x'/><br/><br/>";
     })
   }, //fe
 
@@ -881,7 +883,7 @@ ubbcode.codeTag = {
 //=============================
 //
 //=============================
-ubbcode.postLinkTag = function(tag, arg, txt) {
+ubb.postLinkTag = function(tag, arg, txt) {
   var x = arg ? arg.split(',') : txt.split(','),
     z = (tag.toLowerCase() == 'pid' || (x[1] && x[2])),
     txt = arg ? txt : (z ? '回复' + txt : '主题' + txt)
@@ -903,14 +905,14 @@ ubbcode.postLinkTag = function(tag, arg, txt) {
 //=============================
 //ubi
 //=============================
-ubbcode.ubi = {
+ubb.ubi = {
   parse: function(c) {
     c = c.replace(/\[(del|u|b|i|sub|sup)\](.+?)\[\/\1\]/gi, this.r);
     return c
   },
   r: function($0, $1, $2) {
     $1 = $1.toLowerCase()
-    $2 = window.ubbcode.ubi.parse($2)
+    $2 = window.ubb.ubi.parse($2)
     if ($1 == 'del')
       return "<del class='gray'> " + $2 + " </del>"
     if ($1 == 'u')
@@ -924,9 +926,9 @@ ubbcode.ubi = {
         return "[i]" + $2 + "[/i]"
     }
     if ($1 == 'sup')
-      return "<sup><img style='display:none' src='about:blank' onerror='ubbcode.ubi.c(this)'/>" + $2 + "</sup>"
+      return "<sup><img style='display:none' src='about:blank' onerror='ubb.ubi.c(this)'/>" + $2 + "</sup>"
     if ($1 == 'sub')
-      return "<sub><img style='display:none' src='about:blank' onerror='ubbcode.ubi.c(this)'/>" + $2 + "</sub>"
+      return "<sub><img style='display:none' src='about:blank' onerror='ubb.ubi.c(this)'/>" + $2 + "</sub>"
   },
   c: function(o) {
     var y = o.parentNode,
@@ -945,7 +947,7 @@ ubbcode.ubi = {
 //=============================
 //t.178.com
 //=============================
-ubbcode.bbscode_t178_tpl = function(d, s, uid) {
+ubb.bbscode_t178_tpl = function(d, s, uid) {
   if (uid && !d.user.user_id)
     d.user.user_id = uid
   var a = parseInt(d.user.user_id, 10).toString(16);
@@ -979,7 +981,7 @@ ubbcode.bbscode_t178_tpl = function(d, s, uid) {
 //=============================
 //相册
 //=============================
-ubbcode.album = {
+ubb.album = {
   imgLoad: function(o, src) {
     var img = new Image
     img.onreadystatechange = img.onload = function() {
@@ -1016,7 +1018,7 @@ ubbcode.album = {
 //=============================
 
 
-ubbcode.loadHeadLine = function(o, id) {
+ubb.loadHeadLine = function(o, id) {
   if (!this.loadHeadLineElm || !this.loadHeadLineElm[id]) return
   var i, j, k, w, ww, td1, td2, tr, sel, col, cls, lt, ltr, clsr, height, tmp, x
     height = 250;
@@ -1172,7 +1174,7 @@ ubbcode.loadHeadLine = function(o, id) {
 //=============================
 //链接生成
 //=============================
-ubbcode.writelink = function(u, n, h, frame) {
+ubb.writelink = function(u, n, h, frame) {
   u = u.replace(/http:\/\/([^\.]+)\.ngacn\.com/i, 'http://$1.ngacn.cc')
   var c = '';
   var a = '';
@@ -1229,7 +1231,7 @@ ubbcode.writelink = function(u, n, h, frame) {
 //=============================
 //地址检查
 //=============================
-ubbcode.checklink = function(u, nocookie, tbl) {
+ubb.checklink = function(u, nocookie, tbl) {
   if (!tbl) tbl = this.checkLinkTable
   var c = false
   if (window.cookieFuncs) c = cookieFuncs.getMiscCookie('ngabbsnochecklink')
@@ -1256,7 +1258,7 @@ ubbcode.checklink = function(u, nocookie, tbl) {
 //=============================
 //加解密
 //=============================
-ubbcode.crypt = {
+ubb.crypt = {
   'key': {},
   'genKey': function(k) {
     var s = [],
@@ -1363,8 +1365,8 @@ Website: http://farhadi.ir/ */
   } //fe
 } //ce
 
-ubbcode.decryptCache = {}
-ubbcode.decrypt = function(pass, txt, cC, argsId) {
+ubb.decryptCache = {}
+ubb.decrypt = function(pass, txt, cC, argsId) {
   if (!pass)
     return window.alert('请输入密码')
   var txt = this.crypt.rc4(pass, this.crypt.e(txt))
@@ -1385,7 +1387,7 @@ ubbcode.decrypt = function(pass, txt, cC, argsId) {
 //=============================
 //nouse
 //=============================
-ubbcode.sc2reply_draw = function(r, thumbbase, oi, od, oa) {
+ubb.sc2reply_draw = function(r, thumbbase, oi, od, oa) {
   if (!oa)
     return
   var h = '地图: <b>' + r.map + '</b><br/>';
@@ -1421,7 +1423,7 @@ ubbcode.sc2reply_draw = function(r, thumbbase, oi, od, oa) {
   oa.href += '?filename=' + r.map + n + '.sc2replay'
 } //fe
 
-ubbcode.attach_org_name = function(o, n) {
+ubb.attach_org_name = function(o, n) {
   if (o.nodeName != 'A') {
     o = o.getElementsByTagName('a')
     if (!o[0]) return
@@ -1434,7 +1436,7 @@ ubbcode.attach_org_name = function(o, n) {
 //=============================
 //附件
 //=============================
-ubbcode.attach = {
+ubb.attach = {
   w: window,
 
   load: function(oo, o, a, pid, tid, authorId, postTime) {
@@ -1468,7 +1470,7 @@ ubbcode.attach = {
         authorId: authorId,
         postTime: postTime
       }
-      x = '<button type=button onclick="ubbcode.attach.load(this.parentNode,\'' + o.id + '\',\'' + id + '\')">显示附件</button>'
+      x = '<button type=button onclick="ubb.attach.load(this.parentNode,\'' + o.id + '\',\'' + id + '\')">显示附件</button>'
     } else {
       x = ''
       for (var k = 0; k < a.length; k++)
@@ -1540,7 +1542,7 @@ bbscode提示
   }//参数数组处理函数 返回生成的bbscode 如返回false则视为参数错误中止
 }
 */
-ubbcode.codeHelpCommon = [{
+ubb.codeHelpCommon = [{
   0: '<b>[color]</b><br/><nobr>文字颜色</nobr>',
   1: "<b>文字颜色</b><br/><br/>  选中你希望加颜色的文字并使用下面的选择器选择颜色<br/>"
 }, {
@@ -1864,7 +1866,7 @@ ubbcode.codeHelpCommon = [{
       if (v[1] == '') return false
       if (postfunc && postfunc.addHiddenInfo)
         postfunc.addHiddenInfo('Password: ' + v[0])
-      return '[crypt]' + ubbcode.crypt.c(ubbcode.crypt.rc4(v[0], v[1])) + '[/crypt]'
+      return '[crypt]' + ubb.crypt.c(ubb.crypt.rc4(v[0], v[1])) + '[/crypt]'
     }
   }
 }, {
@@ -1904,7 +1906,7 @@ ubbcode.codeHelpCommon = [{
   1: "<b>引用178尾巴的内容</b><br/><br/>[t.178.com/用户数字id]<br/><br/>引用这个用户的最新一条信息<br/><br/>[t.178.com/#话题#]<br/><br/>引用这个话题的讨论"
 }];
 if (__GP['lesser'])
-  ubbcode.codeHelpCommon.push({
+  ubb.codeHelpCommon.push({
     0: '<b>[headline]</b><br/><nobr>插入头条</nobr>',
     1: "头条可以包含若干个头条链接(或文字)，数目不限，分为文字和图文两类，请参考以下例子\n\
 头条图片高度250像素，宽度不限，图片右侧超出框架部分将不会显示\n\
@@ -2039,3 +2041,5 @@ if (__GP['lesser'])
       }
     }
   })
+
+});
