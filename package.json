@@ -1,0 +1,15 @@
+{
+  "name": "nga",
+  "version": "0.1.0",
+  "author": "yelo",
+  "private": "true",
+  "devDependencies": {
+    "underscore": "~1.5.2",
+    "express": "3.x",
+    "eventproxy": "~0.2.2",
+    "iconv-lite": "~0.2.11",
+    "cheerio": "~0.12.2",
+    "cookiejar": "~1.3.0",
+    "querystring": "~0.2.0"
+  }
+}
