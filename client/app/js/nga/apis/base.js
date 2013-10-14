@@ -53,4 +53,13 @@ define(function (require, exports) {
     }, type);
   };
 
+  // 连接模拟器
+  var connectSimulator = exports.connectSimulator = function (url, next) {
+    $$.get(url, {}, function (data) {
+      var arr, result;
+      var i, len;
+      next(data);
+    }, 'xml');
+  };
+
 });
