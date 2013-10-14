@@ -92,10 +92,23 @@ ReqSimulator.prototype.loadCookies = function (cookies) {
  * @chainable
  */
 ReqSimulator.prototype._saveSetCookie = function (response) {
+  var cookies;
+  var i ,len;
+  var reg, domain, at;
   if (response.headers['set-cookie']) {
+    cookies = response.headers['set-cookie'];
+    // 查找domain=foo.bar的cookie，为其更正为domain=.foo.bar
+    for (i = 0, len = cookies.length; i < len; i++) {
+      reg = new RegExp(/;\s*domain=([^\.][\w\.]*)/gi);
+      domain = reg.exec(cookies[i]);
+      if (domain && domain[1].split('.').length === 2) {
+        at = reg.lastIndex - domain[1].length;
+        cookies[i] = cookies[i].slice(0, at) + '.' + cookies[i].slice(at);
+      }
+    }
     console.log('set-cookie');
-    console.log(response.headers['set-cookie']);
-    this._cookieJar.setCookies(response.headers['set-cookie']);
+    console.log(cookies);
+    this._cookieJar.setCookies(cookies);
   }
   return this;
 };

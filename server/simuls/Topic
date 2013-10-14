@@ -1,0 +1,28 @@
+var ReqSimulator = require('../core/ReqSimulator');
+var simul = new ReqSimulator();
+var getMatch = require('../utils/common').getMatch;
+
+
+var Topic = function (proxy) {
+  this.proxy = proxy;
+  this.cookies = '';
+  return this;
+};
+Topic.prototype.setCookies = function (cookies) {
+  this.cookies = cookies;
+  return this;
+};
+Topic.prototype.get = function (query) {
+  var self = this;
+  var tid = query.tid || 0;
+  var page = query.page || 1;
+  // if (!tid) {
+  //   self.proxy.emit('error', new Error('未指定主题'));
+  // }
+  var url = 'http://bbs.ngacn.cc/read.php?tid=' + tid + '&page=' + page + '&lite=xml&v2';
+  simul.url(url).loadCookies(self.cookies).get(function () {
+    self.proxy.emit('result', this.getHtml());
+  });
+};
+
+module.exports = Topic;

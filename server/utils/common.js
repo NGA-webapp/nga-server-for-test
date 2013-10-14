@@ -54,3 +54,23 @@ var jsonToUrlEncode = exports.jsonToUrlEncode = function (obj, gbk) {
   }
   return str;
 };
+
+/**
+ * 匹配正则表达式，减少处理异常的代码
+ * @param  {string} str   字符串
+ * @param  {RegExp} reg   正则表达式
+ * @param  {number} index 需要返回的索引号
+ * @return {string|array|null}       无匹配结果时返回null，否则有索引号时返回string，无索引号返回array
+ */
+var getMatch = function (str, reg, index) {
+  var m = str.match(reg);
+  if (m) {
+    if (typeof index === 'number') {
+      return m[index];
+    } else {
+      return m;
+    }
+  } else {
+    return null;
+  }
+};
