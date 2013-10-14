@@ -6,11 +6,11 @@ var SiteSimul = require('../simuls/Site');
 var TopicSimul = require('../simuls/Topic');
 var loginApi = require('./login');
 
-
 var base = function (Simul) {
   return function (req, res, next) {
     var proxy = new EventProxy();
     proxy.assign('result', function (result) {
+      // 因ReqSimulator已经将文件输出为utf8，所以需要把xml的头改为utf8
       result = result.replace(/GBK/i, 'UTF-8');
       res.end(result);
     });
