@@ -3,6 +3,7 @@ define(function (require) {
   var EventProxy = require('../utils/EventProxy');
   var template = require('../utils/artTemplate/index');
   var forumCtrl = require('./forum');
+  var articleTpl = require('../views/groups/article.tpl');
 
   var ep = new EventProxy();
 
@@ -21,7 +22,9 @@ define(function (require) {
     // 清空原来的列表
     Lungo.dom('#groups>article').remove();
     // 渲染模板
-    Lungo.dom('#groups').append(template.compile(require('../views/groups/article.tpl'))({groups: groups, icons: icons}));
+    alert(groups[0].children);
+    Lungo.dom('#groups').append(template.compile(articleTpl)({groups: groups, icons: icons}));
+    alert(1);
     Lungo.dom('#groups>nav').html(template.compile(require('../views/groups/nav.tpl'))({groups: groups, icons: icons}));
     // 重新绑定事件
     Lungo.dom('#groups>article li').on('tap', introForum);
@@ -41,7 +44,9 @@ define(function (require) {
     ep.emit('groups', groups);
   });
   api.global(function (res) {
-    var resIcons = res.getElementsByTagName('__FORUM_ICON')[0].children;
+    var $res = $$(res);
+    window.r = $res;
+    var resIcons = $res.find('__FORUM_ICON forum');
     var icons = {};
     var i, len, tmp;
     icons.path = res.getElementsByTagName('__FORUM_ICON_PATH')[0].textContent;

@@ -62,7 +62,7 @@ var jsonToUrlEncode = exports.jsonToUrlEncode = function (obj, gbk) {
  * @param  {number} index 需要返回的索引号
  * @return {string|array|null}       无匹配结果时返回null，否则有索引号时返回string，无索引号返回array
  */
-var getMatch = function (str, reg, index) {
+var getMatch = exports.getMatch = function (str, reg, index) {
   var m = str.match(reg);
   if (m) {
     if (typeof index === 'number') {
