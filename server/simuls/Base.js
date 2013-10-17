@@ -22,6 +22,7 @@ Base.prototype.get = function (query) {
   // var url = 'http://bbs.ngacn.cc/thread.php?fid=' + fid + '&page=' + page + '&lite=xml&v2';
   var url = self.makeUrl(query);
   simul.url(url).loadCookies(self.cookies).get(function () {
+    console.log(this.getHtml());
     self.proxy.emit('result', this.getHtml());
   });
 };

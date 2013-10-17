@@ -1,5 +1,5 @@
 define(function (require, exports, module) {
-  var ForumView = require('modules/views/Forum');
+  var ForumView = require('modules/views/forum/Forum');
   module.exports = function () {
     var routesTable = {
       "": "index",
@@ -11,7 +11,7 @@ define(function (require, exports, module) {
       index: function () {
         console.log('index');
         var forumView = new ForumView();
-        // forumView.render();
+        forumView.fetch({fid: 335, page: 1});
         window.f = forumView;
       },
       getForum: function (fid) {

@@ -79,7 +79,9 @@ ReqSimulator.prototype.encoding = function (encoding) {
  */
 ReqSimulator.prototype.loadCookies = function (cookies) {
   // this._cookieJar.setCookies(trim(cookies.replace(/;/g, ':')));
-  this._cookieJar.setCookies(cookies);
+  if (cookies) {
+    this._cookieJar.setCookies(cookies);
+  }
   return this;
 };
 

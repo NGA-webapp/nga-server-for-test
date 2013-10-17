@@ -1,0 +1,110 @@
+// 圆角
+.border-radius(@radius: 5px) {
+  -webkit-border-radius: @radius;
+     -moz-border-radius: @radius;
+          border-radius: @radius;
+}
+// 圆角单角
+.border-top-left-radius(@radius: 5px) {
+  -webkit-border-top-left-radius: @radius;
+      -moz-border-radius-topleft: @radius;
+          border-top-left-radius: @radius;
+}
+.border-top-right-radius(@radius: 5px) {
+  -webkit-border-top-right-radius: @radius;
+      -moz-border-radius-topright: @radius;
+          border-top-right-radius: @radius;
+}
+.border-bottom-right-radius(@radius: 5px) {
+  -webkit-border-bottom-right-radius: @radius;
+      -moz-border-radius-bottomright: @radius;
+          border-bottom-right-radius: @radius;
+}
+.border-bottom-left-radius(@radius: 5px) {
+  -webkit-border-bottom-left-radius: @radius;
+      -moz-border-radius-bottomleft: @radius;
+          border-bottom-left-radius: @radius;
+}
+// 圆角单边
+.border-top-radius(@radius: 5px) {
+  .border-top-right-radius(@radius);
+  .border-top-left-radius(@radius);
+}
+.border-right-radius(@radius: 5px) {
+  .border-top-right-radius(@radius);
+  .border-bottom-right-radius(@radius);
+}
+.border-bottom-radius(@radius: 5px) {
+  .border-bottom-right-radius(@radius);
+  .border-bottom-left-radius(@radius);
+}
+.border-left-radius(@radius: 5px) {
+  .border-top-left-radius(@radius);
+  .border-bottom-left-radius(@radius);
+}
+
+// 透明
+.opacity(@opacity: 80) {
+  opacity: @opacity / 100;
+  filter: ~"alpha(opacity=@{opacity})";
+}
+
+// 字阴影
+.text-shadow(@shadow: 5px 5px 5px #333){
+  text-shadow: @shadow;
+}
+.text-shadow(@shadow: 5px 5px 5px #333, @rest...){
+  text-shadow: @shadow, @rest;
+}
+
+// 盒阴影
+.box-shadow(@shadow: 5px 5px 10px #cccccc) {
+  -webkit-box-shadow: @shadow;
+     -moz-box-shadow: @shadow;
+          box-shadow: @shadow;
+}
+.box-shadow(@shadow: 5px 5px 10px #cccccc, @rest...) {
+  -webkit-box-shadow: @shadow, @rest;
+     -moz-box-shadow: @shadow, @rest;
+          box-shadow: @shadow, @rest;
+}
+
+// 动画 
+.transition(@transition: all 0.3s ease-in) {
+  -webkit-transition: @transition;
+    -moz-transition: @transition;
+       -o-transition: @transition;
+          transition: @transition;
+}
+
+// 模糊
+.fliter-blur(@n: 3px) {
+  -webkit-filter: blur(@n);
+  -moz-filter: blur(@n);
+  -o-filter: blur(@n);
+  -ms-filter: blur(@n);
+  filter: blur(@n);
+}
+
+// 渐变
+.linear-gradient(@from: #ffffff, @to: #000000) {
+  background-image: -moz-linear-gradient(top, @from, @to);  /* FF3.6+ */
+  background-image: -webkit-gradient(linear, left top, left bottom, from(@from), to(@to)); /* Saf4+, Chrome */
+  background-image: -webkit-linear-gradient(top, @from, @to); /* Chrome 10+, Saf5.1+, iOS 5+ */
+  background-image: -ms-linear-gradient(top, @from, @to); /* IE10 */
+  background-image: -o-linear-gradient(top, @from, @to); /* Opera 11.10+ */
+  background-image: linear-gradient(top, @from, @to);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=@from,endColors=@to);
+}
+
+//**
+// * box-sizing 盒模型计算方式
+// * @params        content-box padding-box border-box       
+// * @author        飞长 <veryued@gmail.com>
+// */
+
+.box-sizing(@boxmodel: content-box) {
+  -webkit-box-sizing: @boxmodel;
+     -moz-box-sizing: @boxmodel;
+          box-sizing: @boxmodel;
+}

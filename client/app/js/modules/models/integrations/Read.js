@@ -6,9 +6,11 @@ define(function (require, exports, module) {
   var UserCollection = require('modules/collections/data/Users');
   var PostCollection = require('modules/collections/data/Posts');
   var TopicModel = require('modules/models/data/Topic');
+  var browser = require('utils/browser');
 
   var ReadModel = BasicModel.extend({
-    url: 'http://bbs.ngacn.cc/read.php',
+    // url: 'http://bbs.ngacn.cc/read.php',
+    url: browser.isIPhone ? '/api/topic' : 'http://bbs.ngacn.cc/read.php',
     defaults: {
       "account": {},
       "users": {},
@@ -30,7 +32,7 @@ define(function (require, exports, module) {
         thisRows: toInteger($resp.find('__R__ROWS').text()),
         perRows: toInteger($resp.find('__R__ROWS_PAGE').text())
       };
-    }
+    },
   });
   module.exports = ReadModel;
 });
