@@ -22,31 +22,28 @@ define(function (require, exports, module) {
       "signature": "", // 签名 
       "bit": 0 // 用户状态bit 
     },
-    loadXml: function ($item) {
-      var nodeText = function (selector) {
-        return getNodeText($item, selector);
-      };
+    parse: function (node) {
+      var $node = $$(node);
       var obj = {
-        "uid" : toInteger(nodeText('uid')),
-        "username": nodeText('username'),
-        "medal": toInteger(nodeText('medal')),
-        "group": toInteger(nodeText('groupid')),
-        "member": toInteger(nodeText('memberid')),
-        "avatar": nodeText('avatar'),
-        "yz": toInteger(nodeText('yz')),
-        "site": nodeText('site'),
-        "honor": nodeText('honor'),
-        "reg": toInteger(nodeText('regdate')),
-        "mute": toInteger(nodeText('mute_time')),
-        "post": toInteger(nodeText('postnum')),
-        "rvrc": toInteger(nodeText('rvrc')),
-        "money": toInteger(nodeText('money')),
-        "visit": toInteger(nodeText('thisvisit')),
-        "signature": nodeText('signature'),
-        "bit": toInteger(nodeText('bit_data'))
+        "uid" : toInteger($node.find('uid').text()),
+        "username": $node.find('username').text(),
+        "medal": toInteger($node.find('medal').text()),
+        "group": toInteger($node.find('groupid').text()),
+        "member": toInteger($node.find('memberid').text()),
+        "avatar": $node.find('avatar').text(),
+        "yz": toInteger($node.find('yz').text()),
+        "site": $node.find('site').text(),
+        "honor": $node.find('honor').text(),
+        "reg": toInteger($node.find('regdate').text()),
+        "mute": toInteger($node.find('mute_time').text()),
+        "post": toInteger($node.find('postnum').text()),
+        "rvrc": toInteger($node.find('rvrc').text()),
+        "money": toInteger($node.find('money').text()),
+        "visit": toInteger($node.find('thisvisit').text()),
+        "signature": $node.find('signature').text(),
+        "bit": toInteger($node.find('bit_data').text())
       };
-      this.set(obj);
-      return this;
+      return obj;
     }
   });
 

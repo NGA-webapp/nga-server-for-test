@@ -18,15 +18,12 @@ define(function (require, exports, module) {
           "subid":0 
           }, 
     },
-    loadXml: function ($item) {
-      var nodeText = function (selector) {
-        return getNodeText($item, selector);
-      };
+    parse: function (node) {
+      var $node = $$(node);
       var obj = {
         // todo
       };
-      this.set(obj);
-      return this;
+      return obj;
     }
   });
   module.exports = AttachModel;

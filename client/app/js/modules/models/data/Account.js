@@ -10,15 +10,13 @@ define(function (require, exports, module) {
       "admin": 0, // 用户是否在当前页有部分权限
       "rvrc": 0 // 用户的威望(论坛的威望显示值是此数值/10
     },
-    parse: function ($node) {
-      var nodeText = function (selector) {
-        return getNodeText($node, selector);
-      };
+    parse: function (node) {
+      var $node = $$(node);
       var obj = {
-        "uid": toInteger(nodeText('uid')),
-        "groupBit": toInteger(nodeText('group_bit')),
-        "admin": toInteger(nodeText('admincheck')),
-        "rvrc": toInteger(nodeText('rvrc'))
+        "uid": toInteger($node.find('uid').text()),
+        "groupBit": toInteger($node.find('group_bit').text()),
+        "admin": toInteger($node.find('admincheck').text()),
+        "rvrc": toInteger($node.find('rvrc').text())
       };
       return obj;
     }

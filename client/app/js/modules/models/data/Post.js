@@ -18,28 +18,25 @@ define(function (require, exports, module) {
       "lou": 0, // 楼层
       "postDate": 0 // 发帖时间
     },
-    loadXml: function ($item) {
-      var nodeText = function (selector) {
-        return getNodeText($item, selector);
-      };
+    parse: function (node) {
+      var $node = $$(node);
       var obj = {
-        "content": nodeText('content'),
-        "alterInfo": nodeText('alterinfo'),
-        "typeBit": toInteger(nodeText('type')),
-        "authorId": toInteger(nodeText('authorid')),
-        "subject": nodeText('subject'),
-        "pid": toInteger(nodeText('pid')),
-        "tid": toInteger(nodeText('tid')),
-        "fid": toInteger(nodeText('fid')),
-        "contentLength": toInteger(nodeText('content_length')),
-        "orgFid": toInteger(nodeText('org_fid')),
+        "content": $node.find('content').text(),
+        "alterInfo": $node.find('alterinfo').text(),
+        "typeBit": toInteger($node.find('type').text()),
+        "authorId": toInteger($node.find('authorid').text()),
+        "subject": $node.find('subject').text(),
+        "pid": toInteger($node.find('pid').text()),
+        "tid": toInteger($node.find('tid').text()),
+        "fid": toInteger($node.find('fid').text()),
+        "contentLength": toInteger($node.find('content_length').text()),
+        "orgFid": toInteger($node.find('org_fid').text()),
         // todo: load attachs
         "attachs": {},
-        "lou": toInteger(nodeText('lou')),
-        "postDate": toInteger(nodeText('postdatetimestamp'))
+        "lou": toInteger($node.find('lou').text()),
+        "postDate": toInteger($node.find('postdatetimestamp').text())
       };
-      this.set(obj);
-      return this;
+      return obj;
     }
   });
   module.exports = PostModel;

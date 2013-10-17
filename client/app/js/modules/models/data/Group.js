@@ -8,15 +8,12 @@ define(function (require, exports, module) {
      "name": "", // 用户组名
      "bit": 0 // 用户组属性bit 
     },
-    loadXml: function ($item) {
-      var nodeText = function (selector) {
-        return getNodeText($item, selector);
-      };
+    parse: function (node) {
+      var $node = $$(node);
       var obj = {
         // todo
       };
-      this.set(obj);
-      return this;
+      return obj;
     }
   });
   module.exports = GroupModel;

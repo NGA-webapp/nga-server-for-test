@@ -24,33 +24,30 @@ define(function (require, exports, module) {
       "admin": 0, // 用户是否对此主题有权限bit (列表中显示)
       "url": "", // 主题地址 (列表中显示)
     },
-    loadXml: function ($item) {
-      var nodeText = function (selector) {
-        return getNodeText($item, selector);
-      };
+    parse: function (node) {
+      var $node = $$(node);
       var obj = {
-        "tid": toInteger(nodeText('tid')),
-        "fid": toInteger(nodeText('fid')),
-        "quoteFrom": toInteger(nodeText('quote_from')),
-        "quoteTo": nodeText('quote_to'),
-        "icon": toInteger(nodeText('icon')),
-        "titleFont": nodeText('titlefont'),
-        "authorName": nodeText('author'),
-        "authorId": toInteger(nodeText('authorid')),
-        "subject": nodeText('subject'),
-        "type": toInteger(nodeText('type')),
-        "postDate": toInteger(nodeText('postdate')),
-        "lastPost": toInteger(nodeText('lastpost')),
-        "lastPoster": nodeText('lastposter'),
-        "replies": toInteger(nodeText('replies')),
-        "upload": toInteger(nodeText('ifupload')),
-        "lastModify": toInteger(nodeText('lastmodify')),
-        "recommend": toInteger(nodeText('recommend')),
-        "admin": toInteger(nodeText('admin_ui')),
-        "url": nodeText('tpcurl'),
+        "tid": toInteger($node.find('tid').text()),
+        "fid": toInteger($node.find('fid').text()),
+        "quoteFrom": toInteger($node.find('quote_from').text()),
+        "quoteTo": $node.find('quote_to').text(),
+        "icon": toInteger($node.find('icon').text()),
+        "titleFont": $node.find('titlefont').text(),
+        "authorName": $node.find('author').text(),
+        "authorId": toInteger($node.find('authorid').text()),
+        "subject": $node.find('subject').text(),
+        "type": toInteger($node.find('type').text()),
+        "postDate": toInteger($node.find('postdate').text()),
+        "lastPost": toInteger($node.find('lastpost').text()),
+        "lastPoster": $node.find('lastposter').text(),
+        "replies": toInteger($node.find('replies').text()),
+        "upload": toInteger($node.find('ifupload').text()),
+        "lastModify": toInteger($node.find('lastmodify').text()),
+        "recommend": toInteger($node.find('recommend').text()),
+        "admin": toInteger($node.find('admin_ui').text()),
+        "url": $node.find('tpcurl').text(),
       };
-      this.set(obj);
-      return this;
+      return obj;
     }
   });
   module.exports = TopicModel;

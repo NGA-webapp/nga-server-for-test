@@ -12,22 +12,19 @@ define(function (require, exports, module) {
       "unionForumDefault": "", // 联合版面中默认显示的版面ID 逗号分隔
       "selectedForum": "" // 联合版面中用户选择显示的版面id 逗号分隔 (如选择了一个以上会包括联合版面本身的id)
     },
-    loadXml: function ($item) {
-      var nodeText = function (selector) {
-        return getNodeText($item, selector);
-      };
+    parse: function (node) {
+      var $node = $$(node);
       var obj = {
-        "fid": toInteger(nodeText('fid')),
-        "toppedTopic": toInteger(nodeText('topped_topic')),
-        "toppedTopicExtra": nodeText('topped_topic_extra'),
+        "fid": toInteger($node.find('fid').text()),
+        "toppedTopic": toInteger($node.find('topped_topic').text()),
+        "toppedTopicExtra": $node.find('topped_topic_extra').text(),
         // todo
         "sub_forums":  {},
-        "unionForum": nodeText('__UNION_FORUM'),
-        "unionForumDefault": nodeText('__UNION_FORUM_DEFAULT'),
-        "selectedForum": nodeText('__SELECTED_FORUM')
+        "unionForum": $node.find('__UNION_FORUM').text(),
+        "unionForumDefault": $node.find('__UNION_FORUM_DEFAULT').text(),
+        "selectedForum": $node.find('__SELECTED_FORUM').text()
       };
-      this.set(obj);
-      return this;
+      return obj;
     }
   });
   module.exports = MedalModel;

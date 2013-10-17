@@ -1,16 +1,11 @@
-/* QuoJS v2.3.6 - 2013/5/13
-   http://quojs.tapquo.com
-   Copyright (c) 2013 Javi Jimenez Villar (@soyjavi) - Licensed MIT */
 (function() {
   var Quo;
 
   Quo = (function() {
     var $$, EMPTY_ARRAY, Q;
-
     EMPTY_ARRAY = [];
     $$ = function(selector, children) {
       var dom;
-
       if (!selector) {
         return Q();
       } else if ($$.toType(selector) === "function") {
@@ -29,7 +24,6 @@
     $$.extend = function(target) {
       Array.prototype.slice.call(arguments, 1).forEach(function(source) {
         var key, _results;
-
         _results = [];
         for (key in source) {
           _results.push(target[key] = source[key]);
@@ -51,7 +45,6 @@
 (function() {
   (function($$) {
     var DEFAULT, JSONP_ID, MIME_TYPES, _isJsonP, _parseResponse, _xhrError, _xhrForm, _xhrHeaders, _xhrStatus, _xhrSuccess, _xhrTimeout;
-
     DEFAULT = {
       TYPE: "GET",
       MIME: "json"
@@ -80,7 +73,6 @@
     };
     $$.ajax = function(options) {
       var abortTimeout, error, settings, xhr;
-
       settings = $$.mix($$.ajaxSettings, options);
       if (settings.type === DEFAULT.TYPE) {
         settings.url += $$.serializeParameters(settings.data, "?");
@@ -119,7 +111,6 @@
     };
     $$.jsonp = function(settings) {
       var abortTimeout, callbackName, script, xhr;
-
       if (settings.async) {
         callbackName = "jsonp" + (++JSONP_ID);
         script = document.createElement("script");
@@ -177,7 +168,6 @@
     };
     $$.serializeParameters = function(parameters, character) {
       var parameter, serialize;
-
       if (character == null) {
         character = "";
       }
@@ -213,7 +203,6 @@
     };
     _xhrHeaders = function(xhr, settings) {
       var header;
-
       if (settings.contentType) {
         settings.headers["Content-Type"] = settings.contentType;
       }
@@ -241,7 +230,6 @@
     };
     _parseResponse = function(xhr, settings) {
       var error, response;
-
       response = xhr.responseText;
       if (response) {
         if (settings.dataType === DEFAULT.MIME) {
@@ -270,7 +258,6 @@
 (function() {
   (function($$) {
     var EMPTY_ARRAY, HTML_CONTAINERS, IS_HTML_FRAGMENT, OBJECT_PROTOTYPE, TABLE, TABLE_ROW, _compact, _flatten;
-
     EMPTY_ARRAY = [];
     OBJECT_PROTOTYPE = Object.prototype;
     IS_HTML_FRAGMENT = /^\s*<(\w+|!)[^>]*>/;
@@ -293,7 +280,6 @@
     };
     $$.getDOMObject = function(selector, children) {
       var domain, elementTypes, type;
-
       domain = null;
       elementTypes = [1, 9, 11];
       type = $$.toType(selector);
@@ -321,7 +307,6 @@
     };
     $$.map = function(elements, callback) {
       var i, key, value, values;
-
       values = [];
       i = void 0;
       key = void 0;
@@ -346,7 +331,6 @@
     };
     $$.each = function(elements, callback) {
       var i, key;
-
       i = void 0;
       key = void 0;
       if ($$.toType(elements) === "array") {
@@ -368,7 +352,6 @@
     };
     $$.mix = function() {
       var arg, argument, child, len, prop;
-
       child = {};
       arg = 0;
       len = arguments.length;
@@ -385,7 +368,6 @@
     };
     $$.fragment = function(markup, tag) {
       var container;
-
       if (tag == null) {
         tag = "*";
       }
@@ -433,6 +415,7 @@
 
 (function() {
   (function($$) {
+    var _getSibling;
     $$.fn.attr = function(name, value) {
       if (this.length === 0) {
         null;
@@ -477,19 +460,16 @@
     };
     $$.fn.height = function() {
       var offset;
-
       offset = this.offset();
       return offset.height;
     };
     $$.fn.width = function() {
       var offset;
-
       offset = this.offset();
       return offset.width;
     };
     $$.fn.offset = function() {
       var bounding;
-
       bounding = this[0].getBoundingClientRect();
       return {
         left: bounding.left + window.pageXOffset,
@@ -498,12 +478,26 @@
         height: bounding.height
       };
     };
-    return $$.fn.remove = function() {
+    $$.fn.remove = function() {
       return this.each(function() {
         if (this.parentNode != null) {
           return this.parentNode.removeChild(this);
         }
       });
+    };
+    $$.fn.next = function() {
+      return _getSibling.call(this, "nextSibling");
+    };
+    $$.fn.prev = function() {
+      return _getSibling.call(this, "previousSibling");
+    };
+    return _getSibling = function(command) {
+      var element;
+      element = this[0][command];
+      while (element && element.nodeType !== 1) {
+        element = element[command];
+      }
+      return $$(element);
     };
   })(Quo);
 
@@ -512,7 +506,6 @@
 (function() {
   (function($$) {
     var IS_WEBKIT, SUPPORTED_OS, _current, _detectBrowser, _detectEnvironment, _detectOS, _detectScreen;
-
     _current = null;
     IS_WEBKIT = /WebKit\/([\d.]+)/;
     SUPPORTED_OS = {
@@ -536,7 +529,6 @@
     };
     _detectEnvironment = function() {
       var environment, user_agent;
-
       user_agent = navigator.userAgent;
       environment = {};
       environment.browser = _detectBrowser(user_agent);
@@ -547,7 +539,6 @@
     };
     _detectBrowser = function(user_agent) {
       var is_webkit;
-
       is_webkit = user_agent.match(IS_WEBKIT);
       if (is_webkit) {
         return is_webkit[0];
@@ -557,7 +548,6 @@
     };
     _detectOS = function(user_agent) {
       var detected_os, os, supported;
-
       detected_os = null;
       for (os in SUPPORTED_OS) {
         supported = user_agent.match(SUPPORTED_OS[os]);
@@ -584,7 +574,6 @@
 (function() {
   (function($$) {
     var ELEMENT_ID, EVENTS_DESKTOP, EVENT_METHODS, HANDLERS, READY_EXPRESSION, _createProxy, _createProxyCallback, _environmentEvent, _findHandlers, _getElementId, _subscribe, _unsubscribe;
-
     ELEMENT_ID = 1;
     HANDLERS = {};
     EVENT_METHODS = {
@@ -626,7 +615,6 @@
     };
     $$.Event = function(type, touch) {
       var event, property;
-
       event = document.createEvent("Events");
       event.initEvent(type, true, true, null, null, null, null, null, null, null, null, null, null, null, null);
       if (touch) {
@@ -651,7 +639,6 @@
         _subscribe(element, event, callback, selector, function(fn) {
           return function(e) {
             var evt, match;
-
             match = $$(e.target).closest(selector, element).get(0);
             if (match) {
               evt = $$.extend(_createProxy(e), {
@@ -700,7 +687,6 @@
     };
     _subscribe = function(element, event, callback, selector, delegate_callback) {
       var delegate, element_handlers, element_id, handler;
-
       event = _environmentEvent(event);
       element_id = _getElementId(element);
       element_handlers = HANDLERS[element_id] || (HANDLERS[element_id] = []);
@@ -718,7 +704,6 @@
     };
     _unsubscribe = function(element, event, callback, selector) {
       var element_id;
-
       event = _environmentEvent(event);
       element_id = _getElementId(element);
       return _findHandlers(element_id, event, callback, selector).forEach(function(handler) {
@@ -731,17 +716,14 @@
     };
     _environmentEvent = function(event) {
       var environment_event;
-
       environment_event = ($$.isMobile() ? event : EVENTS_DESKTOP[event]);
       return environment_event || event;
     };
     _createProxyCallback = function(delegate, callback, element) {
       var proxy;
-
       callback = delegate || callback;
       proxy = function(event) {
         var result;
-
         result = callback.apply(element, [event].concat(event.data));
         if (result === false) {
           event.preventDefault();
@@ -757,7 +739,6 @@
     };
     return _createProxy = function(event) {
       var proxy;
-
       proxy = $$.extend({
         originalEvent: event
       }, event);
@@ -781,7 +762,6 @@
 (function() {
   (function($$) {
     var CURRENT_TOUCH, EVENT, FIRST_TOUCH, GESTURE, GESTURES, HOLD_DELAY, TAPS, TOUCH_TIMEOUT, _angle, _capturePinch, _captureRotation, _cleanGesture, _distance, _fingersPosition, _getTouches, _hold, _isSwipe, _listenTouches, _onTouchEnd, _onTouchMove, _onTouchStart, _parentIfText, _swipeDirection, _trigger;
-
     TAPS = null;
     EVENT = void 0;
     GESTURE = {};
@@ -793,27 +773,24 @@
     GESTURES.forEach(function(event) {
       $$.fn[event] = function(callback) {
         var event_name;
-
         event_name = event === "touch" ? "touchend" : event;
         return $$(document.body).delegate(this.selector, event_name, callback);
       };
       return this;
     });
-    $$(document).ready(function() {
-      return _listenTouches();
-    });
     _listenTouches = function() {
       var environment;
-
       environment = $$(document.body);
       environment.bind("touchstart", _onTouchStart);
       environment.bind("touchmove", _onTouchMove);
       environment.bind("touchend", _onTouchEnd);
       return environment.bind("touchcancel", _cleanGesture);
     };
+    $$(document).ready(function() {
+      return _listenTouches();
+    });
     _onTouchStart = function(event) {
       var delta, fingers, now, touches;
-
       EVENT = event;
       now = Date.now();
       delta = now - (GESTURE.last || now);
@@ -842,7 +819,6 @@
     };
     _onTouchMove = function(event) {
       var fingers, is_swipe, touches;
-
       EVENT = event;
       if (GESTURE.el) {
         touches = _getTouches(event);
@@ -869,7 +845,6 @@
     };
     _isSwipe = function(event) {
       var it_is, move_horizontal, move_vertical;
-
       it_is = false;
       if (CURRENT_TOUCH[0]) {
         move_horizontal = Math.abs(FIRST_TOUCH[0].x - CURRENT_TOUCH[0].x) > 30;
@@ -880,7 +855,6 @@
     };
     _onTouchEnd = function(event) {
       var anyevent, drag_direction, pinch_direction, rotation_direction, swipe_direction;
-
       EVENT = event;
       _trigger("touch");
       if (GESTURE.fingers === 1) {
@@ -903,7 +877,7 @@
         }
       } else {
         anyevent = false;
-        if (GESTURE.angle_difference !== 0) {
+        if (GESTURE.angle_difference) {
           _trigger("rotate", {
             angle: GESTURE.angle_difference
           });
@@ -913,7 +887,7 @@
           });
           anyevent = true;
         }
-        if (GESTURE.distance_difference !== 0) {
+        if (GESTURE.distance_difference) {
           _trigger("pinch", {
             angle: GESTURE.distance_difference
           });
@@ -928,6 +902,7 @@
             _trigger("drag");
             drag_direction = _swipeDirection(FIRST_TOUCH[0].x, CURRENT_TOUCH[0].x, FIRST_TOUCH[0].y, CURRENT_TOUCH[0].y);
             _trigger("drag" + drag_direction);
+            anyevent = true;
           }
         }
         _cleanGesture();
@@ -936,7 +911,6 @@
     };
     _fingersPosition = function(touches, fingers) {
       var i, result;
-
       result = [];
       i = 0;
       touches = touches[0].targetTouches ? touches[0].targetTouches : touches;
@@ -951,14 +925,13 @@
     };
     _captureRotation = function() {
       var angle, diff, i, symbol;
-
       angle = parseInt(_angle(CURRENT_TOUCH), 10);
       diff = parseInt(GESTURE.initial_angle - angle, 10);
       if (Math.abs(diff) > 20 || GESTURE.angle_difference !== 0) {
         i = 0;
-        symbol = GESTURE.angle_difference < 0 ? "-" : "+";
+        symbol = GESTURE.angle_difference < 0 ? -1 : 1;
         while (Math.abs(diff - GESTURE.angle_difference) > 90 && i++ < 10) {
-          eval("diff " + symbol + "= 180;");
+          diff += 180 * symbol;
         }
         GESTURE.angle_difference = parseInt(diff, 10);
         return _trigger("rotating", {
@@ -968,7 +941,6 @@
     };
     _capturePinch = function() {
       var diff, distance;
-
       distance = parseInt(_distance(CURRENT_TOUCH), 10);
       diff = GESTURE.initial_distance - distance;
       if (Math.abs(diff) > 10) {
@@ -996,7 +968,6 @@
     };
     _angle = function(touches_data) {
       var A, B, angle;
-
       A = touches_data[0];
       B = touches_data[1];
       angle = Math.atan((B.y - A.y) * -1 / (B.x - A.x)) * (180 / Math.PI);
@@ -1008,7 +979,6 @@
     };
     _distance = function(touches_data) {
       var A, B;
-
       A = touches_data[0];
       B = touches_data[1];
       return Math.sqrt((B.x - A.x) * (B.x - A.x) + (B.y - A.y) * (B.y - A.y)) * -1;
@@ -1029,7 +999,6 @@
     };
     _swipeDirection = function(x1, x2, y1, y2) {
       var xDelta, yDelta;
-
       xDelta = Math.abs(x1 - x2);
       yDelta = Math.abs(y1 - y2);
       if (xDelta >= yDelta) {
@@ -1048,7 +1017,9 @@
     };
     return _hold = function() {
       if (GESTURE.last && (Date.now() - GESTURE.last >= HOLD_DELAY)) {
-        _trigger("hold");
+        if (!_isSwipe) {
+          _trigger("hold");
+        }
         return GESTURE.taps = 0;
       }
     };
@@ -1064,49 +1035,47 @@
           return this.textContent = value;
         });
       } else {
-        return this[0].textContent;
+        if (this.length > 0) {
+          return this[0].textContent;
+        } else {
+          return '';
+        }
       }
     };
     $$.fn.html = function(value) {
       var type;
-
       type = $$.toType(value);
-      if (value || type === "number" || type === "string") {
-        return this.each(function() {
-          var element, _i, _len, _results;
+      if (type === "undefined") {
+        if (this.length > 0) {
+          return this[0].innerHTML;
+        } else {
 
-          if (type === "string" || type === "number") {
-            return this.innerHTML = value;
+        }
+      } else {
+        return this.each(function() {
+          var _this = this;
+          if (type === "string") {
+            this.innerHTML = value;
+          } else if (type === "array") {
+            return value.forEach(function(v) {
+              return $$(_this).html(v);
+            });
           } else {
-            this.innerHTML = null;
-            if (type === "array") {
-              _results = [];
-              for (_i = 0, _len = value.length; _i < _len; _i++) {
-                element = value[_i];
-                _results.push(this.appendChild(element));
-              }
-              return _results;
-            } else {
-              return this.appendChild(value);
-            }
+            return this.innerHTML = this.innerHTML + $$(value).html();
           }
         });
-      } else {
-        return this[0].innerHTML;
       }
     };
     $$.fn.append = function(value) {
       var type;
-
       type = $$.toType(value);
       return this.each(function() {
         var _this = this;
-
         if (type === "string") {
           return this.insertAdjacentHTML("beforeend", value);
         } else if (type === "array") {
-          return value.each(function(index, value) {
-            return _this.appendChild(value);
+          return value.forEach(function(v) {
+            return $$(_this).append(v);
           });
         } else {
           return this.appendChild(value);
@@ -1115,11 +1084,9 @@
     };
     $$.fn.prepend = function(value) {
       var type;
-
       type = $$.toType(value);
       return this.each(function() {
         var _this = this;
-
         if (type === "string") {
           return this.insertAdjacentHTML("afterbegin", value);
         } else if (type === "array") {
@@ -1133,11 +1100,9 @@
     };
     $$.fn.replaceWith = function(value) {
       var type;
-
       type = $$.toType(value);
       this.each(function() {
         var _this = this;
-
         if (this.parentNode) {
           if (type === "string") {
             return this.insertAdjacentHTML("beforeBegin", value);
@@ -1164,14 +1129,12 @@
 (function() {
   (function($$) {
     var CLASS_SELECTOR, ID_SELECTOR, PARENT_NODE, TAG_SELECTOR, _filtered, _findAncestors;
-
     PARENT_NODE = "parentNode";
     CLASS_SELECTOR = /^\.([\w-]+)$/;
     ID_SELECTOR = /^#[\w\d-]+$/;
     TAG_SELECTOR = /^[\w-]+$/;
     $$.query = function(domain, selector) {
       var elements;
-
       selector = selector.trim();
       if (CLASS_SELECTOR.test(selector)) {
         elements = domain.getElementsByClassName(selector.replace(".", ""));
@@ -1193,7 +1156,6 @@
     };
     $$.fn.find = function(selector) {
       var result;
-
       if (this.length === 1) {
         result = Quo.query(this[0], selector);
       } else {
@@ -1205,13 +1167,11 @@
     };
     $$.fn.parent = function(selector) {
       var ancestors;
-
       ancestors = (selector ? _findAncestors(this) : this.instance(PARENT_NODE));
       return _filtered(ancestors, selector);
     };
     $$.fn.siblings = function(selector) {
       var siblings_elements;
-
       siblings_elements = this.map(function(index, element) {
         return Array.prototype.slice.call(element.parentNode.children).filter(function(child) {
           return child !== element;
@@ -1221,7 +1181,6 @@
     };
     $$.fn.children = function(selector) {
       var children_elements;
-
       children_elements = this.map(function() {
         return Array.prototype.slice.call(this.children);
       });
@@ -1242,7 +1201,6 @@
     };
     $$.fn.closest = function(selector, context) {
       var candidates, node;
-
       node = this[0];
       candidates = $$(selector);
       if (!candidates.length) {
@@ -1261,7 +1219,6 @@
     };
     _findAncestors = function(nodes) {
       var ancestors;
-
       ancestors = [];
       while (nodes.length > 0) {
         nodes = $$.map(nodes, function(node) {
@@ -1287,7 +1244,6 @@
 (function() {
   (function($$) {
     var VENDORS, _computedStyle, _existsClass;
-
     VENDORS = ["-webkit-", "-moz-", "-ms-", "-o-", ""];
     $$.fn.addClass = function(name) {
       return this.each(function() {
@@ -1319,14 +1275,14 @@
       });
     };
     $$.fn.hasClass = function(name) {
-      return _existsClass(name, this[0].className);
+      return this.length > 0 && _existsClass(name, this[0].className);
     };
     $$.fn.style = function(property, value) {
-      if (value) {
+      if (typeof value !== "undefined") {
         return this.each(function() {
           return this.style[property] = value;
         });
-      } else {
+      } else if (this.length > 0) {
         return this[0].style[property] || _computedStyle(this[0], property);
       }
     };
@@ -1335,7 +1291,6 @@
     };
     $$.fn.vendor = function(property, value) {
       var vendor, _i, _len, _results;
-
       _results = [];
       for (_i = 0, _len = VENDORS.length; _i < _len; _i++) {
         vendor = VENDORS[_i];
@@ -1345,7 +1300,6 @@
     };
     _existsClass = function(name, className) {
       var classes;
-
       classes = className.split(/\s+/g);
       return classes.indexOf(name) >= 0;
     };

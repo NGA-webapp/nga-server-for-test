@@ -8,15 +8,12 @@ define(function (require, exports, module) {
       "1":"游戏综合讨论区",//版面名称 
       "2":"游戏话题来这里讨论"//版面说明 
     },
-    loadXml: function ($item) {
-      var nodeText = function (selector) {
-        return getNodeText($item, selector);
-      };
+    parse: function (node) {
+      var $node = $$(node);
       var obj = {
         // todo
       };
-      this.set(obj);
-      return this;
+      return obj;
     }
   });
   module.exports = MedalModel;
