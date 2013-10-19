@@ -5,3 +5,6 @@ exports.loginSite = {
   password: '',
   noexpires: '31536000'
 };
+exports.client = {
+  path: './client'
+};
