@@ -1,5 +1,6 @@
 var EventProxy = require('eventproxy');
 var LoginSimul = require('../simuls/RsaLogin');
+var config = require('../../config');
 
 module.exports = function (req, res, next) {
   var proxy = new EventProxy();
@@ -8,5 +9,5 @@ module.exports = function (req, res, next) {
     res.cookie('ngaCookie', ngaCookie);
     res.end(ngaCookie);
   });
-  login.doLogin(req.body.username, req.body.password);
+  login.doLogin(config.login.username, config.login.password);
 };

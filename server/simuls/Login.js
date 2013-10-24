@@ -3,6 +3,9 @@ var config = require('../../config');
 var simul = new ReqSimulator();
 var getMatch = require('../utils/common').getMatch;
 
+/**
+ * @deprecated 改用RsaLogin登录，简化逻辑
+ */
 var Login = function (proxy) {
   this.proxy = proxy;
   return this;
