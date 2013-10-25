@@ -9,7 +9,9 @@ module.exports = function (app) {
   app.get('/api/group', api.group);
   app.get('/api/site', api.site);
   app.get('/api/topic', api.topic);
+  app.get('/api/user', api.user);
   app.post('/api/login', api.login);
+  app.get('/api/gs', api.gs);
   app.get('/api/autoLogin', api.autoLogin);
   app.get('/test', function (req, res, next) {
     res.end(req.cookies.ngaCookie);

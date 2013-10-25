@@ -1,5 +1,5 @@
 var EventProxy = require('eventproxy');
-var LoginSimul = require('../simuls/RsaLogin');
+var LoginSimul = require('../simuls/AutoRsaLogin');
 var config = require('../../config');
 
 module.exports = function (req, res, next) {

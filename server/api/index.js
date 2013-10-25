@@ -4,6 +4,7 @@ var GlobalSimul = require('../simuls/Global');
 var GroupSimul = require('../simuls/Group');
 var SiteSimul = require('../simuls/Site');
 var TopicSimul = require('../simuls/Topic');
+var UserSimul = require('../simuls/User');
 var autoLoginApi = require('./autoLogin');
 var loginApi = require('./login');
 
@@ -26,5 +27,7 @@ exports.global = base(GlobalSimul);
 exports.group = base(GroupSimul);
 exports.site = base(SiteSimul);
 exports.topic = base(TopicSimul);
+exports.user = base(UserSimul);
 exports.autoLogin = autoLoginApi;
-exports.login = loginApi;
+exports.login = loginApi.doLogin;
+exports.gs = loginApi.getGs;
