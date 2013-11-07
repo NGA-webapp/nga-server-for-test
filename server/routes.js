@@ -1,7 +1,7 @@
 module.exports = function (app) {
   var api = require('./api/index');
   app.get('/', function (req, res) {
-    res.redirect('./client/app');
+    res.redirect('./client');
   });
 
   app.get('/api/forum', api.forum);
